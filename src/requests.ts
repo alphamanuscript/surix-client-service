@@ -10,8 +10,13 @@ const MENU = {
     POPULATE: 'sidebar.populate'
 }
 
+const EVENTS = {
+    MENU_CLICKED: 'clickReq'
+}
+
 export {
     DATA,
     TOAST,
-    MENU
+    MENU,
+    EVENTS
 }

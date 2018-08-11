@@ -17,6 +17,15 @@ export class SurixService {
     public request(type: string, payload?: any) {
         return this.rpc(type, payload);
     }
+
+    /**
+     * An event listener wrapper 
+     * @param eventName A string representing the event name
+     * @param handler a function that handles event
+     */
+    public on(eventName: string, handler: any) {
+        document.addEventListener(eventName, handler);
+    }
     /**
      * Sends the specified message to Surix
      * @param msg Message to send to Surix

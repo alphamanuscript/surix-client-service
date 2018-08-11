@@ -3,7 +3,7 @@ This app facilitates the communication between Surix app and Surix itself
 
 The service needs to be imported first before use
 ```javascript
-import { SurixService, DATA, TOAST, MENU } from 'surix-service';
+import { SurixService, DATA, TOAST, MENU, EVENTS } from 'surix-service';
 
 const service = new SurixService();
 ```
@@ -106,11 +106,11 @@ service.request(TOAST.SHOW, message).then(res => {
 });
 ```
 ## Events:
-There are times where Surix sends information to the app without the app requesting. When one clicks on the menu populated by the app, Surix tells the app about the click using a `clickReq` event.
+There are times where Surix sends information to the app without the app requesting. When one clicks on the menu populated by the app, Surix tells the app about the click using a `EVENTS.MENU_CLICKED` event.
 
-Listening to the clickReq event:
+Listening to the menu click event:
 ```javascript
-document.addEventListener('clickReq', event => {
+let handler = (event) => {
     const msg = event.detail;
     switch(msg) {
         case 'settings':
@@ -119,5 +119,6 @@ document.addEventListener('clickReq', event => {
         case 'mpesa':
             // The mpesa menu item was clicked
     }
-});
+
+service.on(EVENTS.MENU_CLICKED, handler);
 ```
