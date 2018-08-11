@@ -3,7 +3,7 @@ This app facilitates the communication between Surix app and Surix itself
 
 The service needs to be imported first before use
 ```javascript
-import { SurixService, DATA, TOAST, SIDEBAR } from 'surix-service';
+import { SurixService, DATA, TOAST, MENU } from 'surix-service';
 
 const service = new SurixService();
 ```
@@ -19,27 +19,27 @@ const service = new SurixService();
 - `SHOW`: Displays a message on Surix toast (expects message: string parameter).
 
 `MENU` contains:
-- `POPULATE`: Submits the sidebar items to Surix. The sidebar is updated immidiately (expects items: any parameter).
+- `POPULATE`: Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
 
 ## Methods:
 `SurixService` has one method `request` which takes 2 parameters, the first is the request type, and the second is optional payload.
 ## 
-## Populating Surix Sidebar:
-Sidebar payload is an array of objects:
+## Populating Surix menu:
+menu payload is an array of objects:
 ```javascript
 const menuItems = [
         {
             icon: 'speaker_notes', 
-            // This is the icon to be displayed on the sidebar
+            // This is the icon to be displayed on the menu
             // The icon name follows the material icon standard.
             title: "MPESA Transactions", 
-            // This is the text displayed on the sidebar
+            // This is the text displayed on the menu
             // and also on the title bar when this item is clicked.
             action: 'mpesa', 
             // This is a tag, the value is abitrary. The developer 
-            // could use this to check which sidebar list item was clicked
+            // could use this to check which menu list item was clicked
             default: true 
-            // This will be selected by default when the sidebar populates
+            // This will be selected by default when the menu populates
         },
         {
             icon: 'settings',
@@ -49,10 +49,10 @@ const menuItems = [
 ]
 ```
 
-Populating the sidebar:
+Populating the menu:
 ```javascript
 service.request(MENU.POPULATE, menuItems).then(res => {
-    // The sidebar was updated automatically
+    // The menu was updated automatically
 }).catch(err => {
     // Handle the error
 });
@@ -106,7 +106,7 @@ service.request(TOAST.SHOW, message).then(res => {
 });
 ```
 ## Events:
-There are times where Surix sends information to the app without the app requesting. When one clicks on the sidebar populated by the app, Surix tells the app about the click using a `clickReq` event.
+There are times where Surix sends information to the app without the app requesting. When one clicks on the menu populated by the app, Surix tells the app about the click using a `clickReq` event.
 
 Listening to the clickReq event:
 ```javascript
@@ -114,10 +114,10 @@ document.addEventListener('clickReq', event => {
     const msg = event.detail;
     switch(msg) {
         case 'settings':
-            // The settings sidebar item was clicked
+            // The settings menu item was clicked
         break;
         case 'mpesa':
-            // The mpesa sidebar item was clicked
+            // The mpesa menu item was clicked
     }
 });
 ```
