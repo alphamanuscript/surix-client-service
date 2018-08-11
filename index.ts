@@ -1,8 +1,8 @@
 import { SurixService } from './src/service';
-import { DATA, TOAST, SIDEBAR } from './src/requests';
+import { DATA, TOAST, MENU } from './src/requests';
 export {
     SurixService,
     DATA,
     TOAST,
-    SIDEBAR
+    MENU
 }

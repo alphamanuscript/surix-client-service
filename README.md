@@ -8,7 +8,7 @@ import { SurixService, DATA, TOAST, SIDEBAR } from 'surix-service';
 const service = new SurixService();
 ```
 `SurixService`    is the service itself.
-`DATA` , `TOAST` , `SIDEBAR`    are the request types available.
+`DATA` , `TOAST` , `MENU`    are the request types available.
 
 `DATA` contains:
 - `GET_ENTITIES:` Fetches entities from the current Surix project.
@@ -18,7 +18,7 @@ const service = new SurixService();
 `TOAST` contains:
 - `SHOW`: Displays a message on Surix toast (expects message: string parameter).
 
-`SIDEBAR` contains:
+`MENU` contains:
 - `POPULATE`: Submits the sidebar items to Surix. The sidebar is updated immidiately (expects items: any parameter).
 
 ## Methods:
@@ -27,7 +27,7 @@ const service = new SurixService();
 ## Populating Surix Sidebar:
 Sidebar payload is an array of objects:
 ```javascript
-const sidebarItems = [
+const menuItems = [
         {
             icon: 'speaker_notes', 
             // This is the icon to be displayed on the sidebar
@@ -51,7 +51,7 @@ const sidebarItems = [
 
 Populating the sidebar:
 ```javascript
-service.request(SIDEBAR.POPULATE).then(res => {
+service.request(MENU.POPULATE, menuItems).then(res => {
     // The sidebar was updated automatically
 }).catch(err => {
     // Handle the error
@@ -99,7 +99,7 @@ service.request(DATA.PROJECT).then(project => {
 ```javascript
 const message = 'Welcome to Surix';
 
-service.request(TOAST.SHOW).then(res => {
+service.request(TOAST.SHOW, message).then(res => {
     // Toast was displayed successfully 
 }).catch(err => {
     // Handle error

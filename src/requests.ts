@@ -6,12 +6,12 @@ const DATA = {
 const TOAST = {
     SHOW: 'toast.show',
 }
-const SIDEBAR = {
+const MENU = {
     POPULATE: 'sidebar.populate'
 }
 
 export {
     DATA,
     TOAST,
-    SIDEBAR
+    MENU
 }
