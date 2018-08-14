@@ -1,0 +1,29 @@
+{
+  "name": "surix-tools",
+  "version": "1.0.0",
+  "description": "A service that helps developers intereact with surix data from the apps they develop",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "yarn clean && tsc && tsc -m es6 --outDir build/lib-esm && node_modules/.bin/webpack --mode production",
+    "clean": "rm -rf build lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://grafitto@gitlab.com/manuscript/surix/app-service.git"
+  },
+  "keywords": [
+    "Surix",
+    "App",
+    "Service"
+  ],
+  "author": "Kevin Nderitu",
+  "license": "MIT"
+}

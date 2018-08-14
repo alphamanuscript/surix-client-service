@@ -1,5 +1,5 @@
 
-export class SurixService {
+export class Service {
     private rpcTracker: any;
 
     /**
@@ -69,7 +69,7 @@ export class SurixService {
      * Emits a custom event
      * @param msg Message to be embeded to the custom event to be emitted
      */
-    private emit(msg) {
+    private emit(msg: any) {
         const event: Event = new CustomEvent(msg.type, {detail: msg});
         window.dispatchEvent(event);
     }
