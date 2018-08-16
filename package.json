@@ -12,8 +12,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "yarn clean && tsc && tsc -m es6 --outDir build/lib-esm && node_modules/.bin/webpack --mode production",
-    "clean": "rm -rf build lib"
+    "build": "yarn clean && tsc && tsc -m es6 --outDir build/dist-esm && node_modules/.bin/webpack --mode production",
+    "clean": "rm -rf build dist"
   },
   "repository": {
     "type": "git",
