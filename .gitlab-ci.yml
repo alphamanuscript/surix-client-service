@@ -10,7 +10,7 @@ staging:
     - git add .
     - git config --global user.email "nderitukelvin19@gmail.com"
     - git config --global user.name "CI"
-    - git commit -m 'Dev Build...'
+    - git commit -m 'Production Build...'
     - git push origin dev
   only:
   - dev
