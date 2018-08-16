@@ -7,8 +7,8 @@ staging:
     - yarn build
     - mkdir ~/.ssh
     - touch ~/.ssh/id_rsa ~/.ssh/id_rsa.pub
-    - echo $CI_GIT_PRIVATE_KEY > ~/.ssh/id_rsa
-    - echo $CI_GIT_PUBLIC_KEY > ~/.ssh/id_rsa.pub
+    - echo $SSH_PRIVATE_KEY > ~/.ssh/id_rsa
+    - echo $SSH_PUBLIC_KEY > ~/.ssh/id_rsa.pub
     - git checkout master
     - git checkout dev
     - git remote rm origin
