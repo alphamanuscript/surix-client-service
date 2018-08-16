@@ -7,6 +7,8 @@ staging:
     - yarn build
     - mkdir ~/.ssh
     - touch ~/.ssh/known_hosts
+    - touch ~/.ssh/id_rsa.pub
+    - echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCx0LS7FsJ6F+eUxLwzfp8f1U6P1NvmOvK1bezoBVP1+5vYoUt8xml63+OVa7uS9+tWNtdIS8bSfNkpUPTEJZJoBw2uXIdWYCQu0ej2HTQIhozYjLxqkEBKAf2r1vk4+zjAnalv7bjhXkrLNXeUhXXjc0UJ77ldZYEnafWw0U8+U95VoLK1t2UvrGUmJuULjW8RbE1ZXlwgocDM6G9h0BxbcvEca9GUKmz5ofgfJyjEP9DQlwWMztowOM7gEibzJcKdT41fnhhfZc4LSGJuNXi83QzYXjkvADljV8VKaQi7apP7tppgb5JRz7esI+0kehNe62EVJhdxzy8zZk0PG3JantM4FRfL/iZz1PMkSWZSGKgEWW7XD42lHo6scvpbJuag86FmB+/gcrUaEJyA/QgAy1wH6i1ZfTWCMycuKSMm+MJc+KrDvjkkg4R2lD0w/3nKzojek/qzFXmbodPjdFa2muYvJqpX23BQJhT3fP+0erb/PPLEw2mvQ4Kdok+IVcPDxCIvak9T0GbAnGy8/E/PdNW4FNo1sPgYEYTaJLTfNegfKSp8kvYhZrPLFWqoTdgdT9N2wR/QtQXAdgdwnOYDs/wP5kltqa8j4yEUeuxty5imjYl4Y3pYpWcNBaV5vR96iJ1XbtzCITnuk6G8GPDqRxySx6EpQfHE1k/reeRhSw== nderitukelvin19@gmail.com" > ~/.ssh/id_rsa.pub
     - echo "gitlab.com,35.231.145.151 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFSMqzJeV9rUzU4kWitGjeR4PWSa29SPqJ1fVkhtj3Hw9xjLVXVYrU9QlYWrOLXBpQ6KWjbjTDTdDkoohFzgbEY=" > ~/.ssh/known_hosts
     - git checkout master
     - git checkout dev
