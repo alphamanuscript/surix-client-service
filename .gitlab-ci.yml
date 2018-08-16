@@ -6,6 +6,8 @@ staging:
     - yarn
     - yarn build
     - git add .
+    - git config --global user.email "nderitukelvin19@gmail.com"
+    - git config --global user.name "CI"
     - git commit -m 'Dev Build...'
     - git push origin dev
   only:
