@@ -5,7 +5,7 @@ staging:
   script:
     - yarn
     - yarn build
-    - rm -f ~/.ssh/known_hosts
+    - ssh -T git@gitlab.com
     - git checkout master
     - git checkout dev
     - git remote rm origin
