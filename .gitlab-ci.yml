@@ -5,10 +5,12 @@ staging:
   script:
     - yarn
     - yarn build
-    - git add . --verbose
+    - git checkout master
+    - git checkout dev
+    - git add .
     - git config --global user.email "nderitukelvin19@gmail.com"
     - git config --global user.name "CI"
-    - git commit -m 'Dev Build...' --verbose
-    - git push origin dev --verbose
+    - git commit -m 'Dev Build...'
+    - git push origin dev
   only:
   - dev
