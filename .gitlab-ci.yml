@@ -5,7 +5,8 @@ staging:
   script:
     - yarn
     - yarn build
-    - ssh -T git@gitlab.com
+    - touch ~/.ssh/known_hosts
+    - echo "gitlab.com,35.231.145.151 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFSMqzJeV9rUzU4kWitGjeR4PWSa29SPqJ1fVkhtj3Hw9xjLVXVYrU9QlYWrOLXBpQ6KWjbjTDTdDkoohFzgbEY=" > ~/.ssh/known_hosts
     - git checkout master
     - git checkout dev
     - git remote rm origin
