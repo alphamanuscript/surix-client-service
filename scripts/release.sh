@@ -16,10 +16,11 @@ then
         echo "Releasing v$VERSION on branch $BRANCH ..."
         # commit
         yarn build
+        echo
         git add -A
         git commit -m "[build] $VERSION"
 
-        
+
         # publish
         #git push origin refs/tags/v$VERSION
         #git push
