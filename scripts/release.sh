@@ -25,7 +25,7 @@ then
         # publish
         git push origin --tags
         URL=`git remote get-url origin`
-        git request-pull v$VERSION $URL $BRANCH:master
+        git request-pull v$VERSION $URL master
         git push
     fi
 fi
