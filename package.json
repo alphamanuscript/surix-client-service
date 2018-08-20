@@ -2,7 +2,8 @@
   "name": "surix-tools",
   "version": "1.0.0",
   "description": "A service that helps developers intereact with surix data from the apps they develop",
-  "main": "build/dist/index.js",
+  "main": "./build/dist/index.js",
+  "types": "./build/dist/index.d.ts",
   "dependencies": {},
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.0",
