@@ -16,7 +16,7 @@ or
 ```javascript
 const service = new Surix.Service();
 ```
-`SurixService`    is the service itself.
+`Service`    is the service itself.
 `DATA` , `TOAST` , `MENU`    are the request types available.
 
 `DATA` contains:
