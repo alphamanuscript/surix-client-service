@@ -13,17 +13,27 @@ then
         # commit
         yarn build
         echo
+        
+        # commit the changes and push
         git add -A
         git commit -m "[build] $VERSION"
         git push origin $BRANCH
+
+        # Switch to master for final publish
         git checkout master
+        # Merge changes to master
         git merge $BRANCH
+
+        #Publish changes
         git push -u origin master
         git tag -a v$VERSION -m "version $VERSION"
         
-        # publish
+        # push tags
         git push origin --tags
+
+        # Back to the original branch (dev)
+        git checkout $BRANCH
     else 
-        echo "Release cannot be done on '$BRANCH' branch. Please switch to 'dev' branch to release."
+        echo "$(tput setaf 1)Release cannot be done on '$BRANCH' branch. Please switch to 'dev' branch to release.$(tput sgr 0)"
     fi
 fi
