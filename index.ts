@@ -5,5 +5,5 @@ export {
     DATA,
     TOAST,
     MENU,
-    EVENTS
+    EVENTS,
 }
