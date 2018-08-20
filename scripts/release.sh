@@ -20,9 +20,10 @@ then
         git add -A
         git commit -m "[build] $VERSION"
         git push -u origin $BRANCH
-
+        git tag -a v$VERSION -m "[BUILD] $VERSION"
+        
         # publish
-        git push -u origin refs/tags/v$VERSION
+        git push origin --tags
         URL=`git remote get-url origin`
         git request-pull v$VERSION $URL $BRANCH:master
         git push
