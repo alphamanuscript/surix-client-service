@@ -19,7 +19,7 @@ then
         git checkout master
         git merge $BRANCH
         git push -u origin master
-        git tag -a v$VERSION -m "[BUILD] $VERSION"
+        git tag -a v$VERSION -m "version $VERSION"
         
         # publish
         git push origin --tags
