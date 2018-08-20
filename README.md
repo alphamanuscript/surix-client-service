@@ -3,9 +3,18 @@ This app facilitates the communication between Surix app and Surix itself
 
 The service needs to be imported first before use
 ```javascript
-import { SurixService, DATA, TOAST, MENU, EVENTS } from 'surix-service';
-
-const service = new SurixService();
+import { SurixService, DATA, TOAST, MENU, EVENTS } from 'surix-tools';
+```
+or
+```javascript
+const Surix = require('surix-tools'); 
+```
+or
+```javascript
+<script src="local/dist/surix-service.min.js"></script>
+```
+```javascript
+const service = new Surix.Service();
 ```
 `SurixService`    is the service itself.
 `DATA` , `TOAST` , `MENU`    are the request types available.
