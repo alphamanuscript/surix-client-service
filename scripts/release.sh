@@ -19,7 +19,7 @@ then
         echo
         git add -A
         git commit -m "[build] $VERSION"
-
+        git push -u origin $BRANCH
 
         # publish
         git push -u origin refs/tags/v$VERSION
