@@ -10,7 +10,7 @@ or
 const Surix = require('surix-tools'); 
 ```
 or
-```javascript
+```html
 <script src="local/dist/surix-service.min.js"></script>
 ```
 ```javascript
