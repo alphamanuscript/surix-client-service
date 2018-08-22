@@ -3,6 +3,7 @@ var Service = /** @class */ (function () {
      * Constructor
      */
     function Service() {
+        this.rpcTracker = {};
         this.setUpService();
     }
     /**
