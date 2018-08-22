@@ -6,6 +6,7 @@ export class Service {
      * Constructor
      */
     constructor() {
+        this.rpcTracker = {};
         this.setUpService();
     }
     /**
