@@ -17,7 +17,7 @@ then
         # commit the changes and push
         git add -A
         git commit -m "[build] $VERSION"
-        git push origin $BRANCH
+        git push origin $BRANCH | true
 
         # Switch to master for final publish
         git checkout master
