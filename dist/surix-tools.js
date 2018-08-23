@@ -147,7 +147,7 @@ var Service = /** @class */ (function () {
      * @param msg Message to send to Surix
      */
     Service.prototype.sendMessage = function (msg) {
-        window.parent.postMessage(msg, '*');
+        window.parent.postMessage(JSON.stringify(msg), '*');
     };
     /**
      * Creates a promise then sends the message
@@ -199,7 +199,7 @@ var Service = /** @class */ (function () {
         window.addEventListener('message', function (event) {
             var msg = event.data;
             switch (msg.type) {
-                case 'rpcReq':
+                case 'rpcRep':
                     _this.handleRpcReq(msg, _this);
                     break;
                 default:
