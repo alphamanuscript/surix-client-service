@@ -32,7 +32,7 @@ export class Service {
      * @param msg Message to send to Surix
      */
     private sendMessage(msg: any) {
-        window.parent.postMessage(msg, '*');
+        window.parent.postMessage(JSON.stringify(msg), '*');
     }
     /**
      * Creates a promise then sends the message
@@ -81,7 +81,7 @@ export class Service {
         window.addEventListener('message', event => {
             const msg: any = event.data;
             switch(msg.type) {
-                case 'rpcReq':
+                case 'rpcRep':
                     this.handleRpcReq(msg, this);
                     break;
                 default:
