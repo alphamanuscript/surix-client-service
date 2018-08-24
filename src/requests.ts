@@ -1,22 +1,16 @@
-const DATA = {
-    CREATE_ENTITY: 'data.createEntity',
-    PROJECT: 'data.project',
-    GET_ENTITIES: 'data.getEntities'
-}
-const TOAST = {
-    SHOW: 'toast.show',
-}
-const MENU = {
-    POPULATE: 'sidebar.populate'
-}
-
-const EVENTS = {
-    MENU_CLICKED: 'clickReq'
-}
-
-export {
-    DATA,
-    TOAST,
-    MENU,
-    EVENTS
+export const requests = {
+    data: {
+        createEntity: 'data.createEntity',
+        project: 'data.project',
+        getEntities: 'data.getEntities'
+    },
+    toast: {
+        show: 'toast.show',
+    },
+    menu: {
+        populate: 'sidebar.populate'
+    },
+    events: {
+        menuClicked: 'clickReq'
+    }
 }
