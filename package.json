@@ -6,17 +6,21 @@
   "types": "./build/dist/index.d.ts",
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^23.3.1",
     "awesome-typescript-loader": "^5.2.0",
+    "jest": "^23.5.0",
+    "jsdom": "^12.0.0",
+    "ts-jest": "^23.1.4",
     "typescript": "^3.0.1",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "local:build": "yarn clean && tsc --outDir local/build/dist && tsc -m es6 --outDir local/build/dist-esm && node_modules/.bin/webpack --output-path $PWD/local/dist --mode development",
     "build": "yarn clean && tsc && tsc -m es6 --outDir build/dist-esm && node_modules/.bin/webpack --mode production",
     "release": "bash scripts/release.sh",
-    "clean": "rm -rf build dist"
+    "clean": "rm -rf build dist",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
