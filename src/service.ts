@@ -32,7 +32,7 @@ export class Service {
      * @param msg Message to send to Surix
      */
     private sendMessage(msg: any) {
-        window.parent.postMessage(JSON.stringify(msg), '*');
+        window.parent.postMessage(msg, '*');
     }
     /**
      * Creates a promise then sends the message
