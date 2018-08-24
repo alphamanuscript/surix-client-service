@@ -1,6 +1,7 @@
 
 export class Service {
     private rpcTracker: any;
+    private prefix: string = '__surix__';
 
     /**
      * Constructor
@@ -25,7 +26,7 @@ export class Service {
      * @param handler a function that handles event
      */
     public on(eventName: string, handler: any) {
-        document.addEventListener(eventName, handler);
+        document.addEventListener(`${this.prefix}${eventName}`, handler);
     }
     /**
      * Sends the specified message to Surix
@@ -71,7 +72,7 @@ export class Service {
      * @param msg Message to be embeded to the custom event to be emitted
      */
     private emit(msg: any) {
-        const event: Event = new CustomEvent(msg.type, {detail: msg});
+        const event: Event = new CustomEvent(`${this.prefix}${msg.type}`, {detail: msg});
         document.dispatchEvent(event);
     }
     /**
