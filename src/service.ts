@@ -72,7 +72,7 @@ export class Service {
      */
     private emit(msg: any) {
         const event: Event = new CustomEvent(msg.type, {detail: msg});
-        window.dispatchEvent(event);
+        document.dispatchEvent(event);
     }
     /**
      * Sets up Surix service
