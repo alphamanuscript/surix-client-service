@@ -1,5 +1,4 @@
-import { Service, DATA } from '..';
-import { MENU } from '../src/requests';
+import { Service, requests } from '..';
 
 jest.spyOn(global.window.parent , 'postMessage');
 
@@ -7,11 +6,17 @@ describe('Requests', async () => {
     let surix: any;
 
     beforeAll(() => {
-        surix = new Service();
+        surix = Service.init();
+    });
+    describe('====Init====', async() => {
+        test('Compare instances', async() => {
+            const anotherSurix = Service.init();
+            expect(surix).toBe(anotherSurix);
+        });
     });
     describe("====Passes====", async () => {
         test('Get Project', async() => {
-            surix.request(DATA.PROJECT).then(() => {
+            surix.request(requests.data.project).then(() => {
                 // Projects fetched successfully
             }).catch(() => {
                 // Error 
@@ -20,7 +25,7 @@ describe('Requests', async () => {
             expect(window.parent.postMessage).toHaveBeenCalled();
         });
         test('Get Entities', async () => {
-            surix.request(DATA.GET_ENTITIES).then(()=>{
+            surix.request(requests.data.getEntities).then(()=>{
                 // Entities fetched successfully
             }).catch(()=>{
                 // Error
@@ -34,7 +39,7 @@ describe('Requests', async () => {
                     icon: 'icon', title: 'Title', action: 'action'
                 }
             ]
-            surix.request(MENU.POPULATE, menu).then(() => {
+            surix.request(requests.menu.populate, menu).then(() => {
                 // Menu set successfully
             }).catch(() => {
                 // Error
@@ -53,7 +58,7 @@ describe('Requests', async () => {
                 }
             }
 
-            surix.request(DATA.CREATE_ENTITY, entity).then(() => {
+            surix.request(requests.data.createEntity, entity).then(() => {
                 // Entity created successfully
             }).catch(() => {
                 // Error
