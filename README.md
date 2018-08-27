@@ -3,35 +3,35 @@ This app facilitates the communication between Surix app and Surix itself
 
 The service needs to be imported first before use
 ```javascript
-import { SurixService, DATA, TOAST, MENU, EVENTS } from 'surix-tools';
+import { Service, requests } from 'surix-tools';
+const surix = new Service();
 ```
 or
 ```javascript
 const Surix = require('surix-tools'); 
+const surix = new Surix.Service();
 ```
 or
-```html
-<script src="local/dist/surix-service.min.js"></script>
-```
 ```javascript
+<script src="local/dist/surix-service.min.js"></script>
 const service = new Surix.Service();
 ```
 `Service`    is the service itself.
-`DATA` , `TOAST` , `MENU`    are the request types available.
+`requests` contains all the request types available.
 
-`DATA` contains:
-- `GET_ENTITIES:` Fetches entities from the current Surix project.
-- `CREATE_ENTITY`: Creates an entity in the current Surix project (expects entity: any parameter).
-- `PROJECT`: Fetches the current Surix project.
+`requests.data` contains:
+- `getEntities` Fetches entities from the current Surix project.
+- `createEntities`: Creates an entity in the current Surix project (expects entity: any parameter).
+- `project`: Fetches the current Surix project.
 
-`TOAST` contains:
-- `SHOW`: Displays a message on Surix toast (expects message: string parameter).
+`requests.toast` contains:
+- `show`: Displays a message on Surix toast (expects message: string parameter).
 
-`MENU` contains:
-- `POPULATE`: Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
+`requests.menu` contains:
+- `populate`: Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
 
 ## Methods:
-`SurixService` has one method `request` which takes 2 parameters, the first is the request type, and the second is optional payload.
+`Service` has one method `request` which takes 2 parameters, the first is the request type, and the second is optional payload.
 ## 
 ## Populating Surix menu:
 menu payload is an array of objects:
@@ -60,7 +60,7 @@ const menuItems = [
 
 Populating the menu:
 ```javascript
-service.request(MENU.POPULATE, menuItems).then(res => {
+service.request(requests.menu.populate, menuItems).then(res => {
     // The menu was updated automatically
 }).catch(err => {
     // Handle the error
@@ -70,7 +70,7 @@ service.request(MENU.POPULATE, menuItems).then(res => {
 ### Fetch Entities:
 ```javascript
 // Fetch entities
-service.request(DATA.GET_ENTITIES).then(res => {
+service.request(requests.data.getEntities).then(res => {
     // Do something with the response
 }).catch(err => {
     // Handle error
@@ -88,7 +88,7 @@ const entity = {
     }
 };
 
-service.request(DATA.CREATE_ENTITY, entity).then(entity => {
+service.request(requests.data.createEntity, entity).then(entity => {
     // Do something with the newly created entity
 }).catch(err => {
     // Handle the error
@@ -97,7 +97,7 @@ service.request(DATA.CREATE_ENTITY, entity).then(entity => {
 
 ### Fetch Project:
 ```javascript
-service.request(DATA.PROJECT).then(project => {
+service.request(requests.data.project).then(project => {
     // Do something with the fetched project
 }).catch(err => {
     // Handle error
@@ -108,7 +108,7 @@ service.request(DATA.PROJECT).then(project => {
 ```javascript
 const message = 'Welcome to Surix';
 
-service.request(TOAST.SHOW, message).then(res => {
+service.request(requests.toast.show, message).then(res => {
     // Toast was displayed successfully 
 }).catch(err => {
     // Handle error
@@ -121,7 +121,7 @@ Listening to the menu click event:
 ```javascript
 let handler = (event) => {
     const msg = event.detail;
-    switch(msg) {
+    switch(msg.body) {
         case 'settings':
             // The settings menu item was clicked
         break;
@@ -129,5 +129,5 @@ let handler = (event) => {
             // The mpesa menu item was clicked
     }
 
-service.on(EVENTS.MENU_CLICKED, handler);
+service.on(requests.events.menuClicked, handler);
 ```
