@@ -1,6 +1,6 @@
 {
   "name": "surix-tools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A service that helps developers intereact with surix data from the apps they develop",
   "main": "./build/dist/index.js",
   "types": "./build/dist/index.d.ts",
