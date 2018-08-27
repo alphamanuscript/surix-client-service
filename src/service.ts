@@ -1,11 +1,11 @@
 
 export class Service {
     private rpcTracker: any;
-
+    private static instance?: Service = undefined;
     /**
      * Constructor
      */
-    constructor() {
+    private constructor() {
         this.rpcTracker = {};
         this.setUpService();
     }
@@ -88,5 +88,12 @@ export class Service {
                     this.emit(msg);
             }
         });
+    }
+
+    public init() {
+        if(Service.instance == undefined){
+            Service.instance = new Service();
+        }
+        return Service.instance;
     }
 }
