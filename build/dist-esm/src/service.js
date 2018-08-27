@@ -89,7 +89,7 @@ var Service = /** @class */ (function () {
             }
         });
     };
-    Service.prototype.init = function () {
+    Service.init = function () {
         if (Service.instance == undefined) {
             Service.instance = new Service();
         }

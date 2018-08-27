@@ -45,5 +45,5 @@ export declare class Service {
      * Sets up Surix service
      */
     private setUpService;
-    init(): Service;
+    static init(): Service;
 }
