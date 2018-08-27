@@ -4,17 +4,17 @@ This app facilitates the communication between Surix app and Surix itself
 The service needs to be imported first before use
 ```javascript
 import { Service, requests } from 'surix-tools';
-const surix = new Service();
+const surix = Service.init();
 ```
 or
 ```javascript
 const Surix = require('surix-tools'); 
-const surix = new Surix.Service();
+const surix = Surix.Service.init();
 ```
 or
 ```javascript
 <script src="local/dist/surix-service.min.js"></script>
-const service = new Surix.Service();
+const service = Surix.Service.init();
 ```
 `Service`    is the service itself.
 `requests` contains all the request types available.
