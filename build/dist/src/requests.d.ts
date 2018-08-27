@@ -1,15 +1,16 @@
-declare const DATA: {
-    CREATE_ENTITY: string;
-    PROJECT: string;
-    GET_ENTITIES: string;
+export declare const requests: {
+    data: {
+        createEntity: string;
+        project: string;
+        getEntities: string;
+    };
+    toast: {
+        show: string;
+    };
+    menu: {
+        populate: string;
+    };
+    events: {
+        menuClicked: string;
+    };
 };
-declare const TOAST: {
-    SHOW: string;
-};
-declare const MENU: {
-    POPULATE: string;
-};
-declare const EVENTS: {
-    MENU_CLICKED: string;
-};
-export { DATA, TOAST, MENU, EVENTS };

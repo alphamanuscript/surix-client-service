@@ -1,9 +1,11 @@
 export declare class Service {
     private rpcTracker;
+    private static instance?;
+    private prefix;
     /**
      * Constructor
      */
-    constructor();
+    private constructor();
     /**
      * Sends a request to Surix
      * @param type Request type
@@ -43,4 +45,5 @@ export declare class Service {
      * Sets up Surix service
      */
     private setUpService;
+    init(): Service;
 }

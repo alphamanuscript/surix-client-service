@@ -1,4 +1,4 @@
 import { Service } from './src/service';
-import { DATA, TOAST, MENU, EVENTS } from './src/requests';
-export { Service, DATA, TOAST, MENU, EVENTS, };
+import { requests } from './src/requests';
+export { Service, requests };
 //# sourceMappingURL=index.js.map

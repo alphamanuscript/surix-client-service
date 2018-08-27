@@ -5,6 +5,7 @@ var Service = /** @class */ (function () {
      * Constructor
      */
     function Service() {
+        this.prefix = '__surix__';
         this.rpcTracker = {};
         this.setUpService();
     }
@@ -23,14 +24,14 @@ var Service = /** @class */ (function () {
      * @param handler a function that handles event
      */
     Service.prototype.on = function (eventName, handler) {
-        document.addEventListener(eventName, handler);
+        document.addEventListener("" + this.prefix + eventName, handler);
     };
     /**
      * Sends the specified message to Surix
      * @param msg Message to send to Surix
      */
     Service.prototype.sendMessage = function (msg) {
-        window.parent.postMessage(JSON.stringify(msg), '*');
+        window.parent.postMessage(msg, '*');
     };
     /**
      * Creates a promise then sends the message
@@ -71,8 +72,8 @@ var Service = /** @class */ (function () {
      * @param msg Message to be embeded to the custom event to be emitted
      */
     Service.prototype.emit = function (msg) {
-        var event = new CustomEvent(msg.type, { detail: msg });
-        window.dispatchEvent(event);
+        var event = new CustomEvent("" + this.prefix + msg.type, { detail: msg });
+        document.dispatchEvent(event);
     };
     /**
      * Sets up Surix service
@@ -90,6 +91,13 @@ var Service = /** @class */ (function () {
             }
         });
     };
+    Service.prototype.init = function () {
+        if (Service.instance == undefined) {
+            Service.instance = new Service();
+        }
+        return Service.instance;
+    };
+    Service.instance = undefined;
     return Service;
 }());
 exports.Service = Service;
