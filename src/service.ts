@@ -92,7 +92,7 @@ export class Service {
         });
     }
 
-    public init() {
+    public static init() {
         if(Service.instance == undefined){
             Service.instance = new Service();
         }
