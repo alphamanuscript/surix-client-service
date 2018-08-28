@@ -245,4 +245,4 @@ exports.requests = {
 /***/ })
 /******/ ]);
 });
-//# sourceMappingURL=surix-tools.js.map
+//# sourceMappingURL=client-service.js.map

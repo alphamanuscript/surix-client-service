@@ -1,9 +1,9 @@
 {
-  "name": "surix-tools",
+  "name": "client-service",
   "version": "0.1.2",
   "description": "A service that helps developers intereact with surix data from the apps they develop",
-  "main": "./build/dist/index.js",
-  "types": "./build/dist/index.d.ts",
+  "main": "./dist/client-service.js",
+  "types": "./dist/index.d.ts",
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^23.3.1",
@@ -16,15 +16,15 @@
     "webpack-cli": "^3.1.0"
   },
   "scripts": {
-    "local:build": "yarn clean && tsc --outDir local/build/dist && tsc -m es6 --outDir local/build/dist-esm && node_modules/.bin/webpack --output-path $PWD/local/dist --mode development",
-    "build": "yarn clean && tsc && tsc -m es6 --outDir build/dist-esm && node_modules/.bin/webpack --mode production",
+    "local:build": "yarn clean && node_modules/.bin/webpack --output-path $PWD/local/dist --mode development",
+    "build": "yarn clean && node_modules/.bin/webpack --mode production",
     "release": "bash scripts/release.sh",
-    "clean": "rm -rf build dist",
+    "clean": "rm -rf local dist",
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "https://grafitto@gitlab.com/manuscript/surix/app-service.git"
+    "url": "https://gitlab.com/manuscript/surix/app-service.git"
   },
   "keywords": [
     "Surix",
