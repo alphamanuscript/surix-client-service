@@ -1,4 +1,4 @@
-set -e
+#set -e
 echo "Enter release version: "
 read VERSION
 
@@ -17,7 +17,7 @@ then
         # commit the changes and push
         git add -A
         git commit -m "[build] $VERSION"
-        git push origin $BRANCH | true
+        git push origin $BRANCH
 
         # Switch to master for final publish
         git checkout master
