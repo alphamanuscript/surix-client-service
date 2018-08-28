@@ -3,8 +3,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: {
-      'surix-tools': './index.ts',
-      'surix-tools.min': './index.ts'
+      'client-service': './index.ts',
+      'client-service.min': './index.ts'
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -31,7 +31,7 @@ module.exports = {
         loader: 'awesome-typescript-loader',
         exclude: /node_modules/,
         query: {
-          declaration: false,
+          declaration: true,
         }
       }]
     }
