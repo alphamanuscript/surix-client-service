@@ -29,6 +29,8 @@ const service = Surix.Service.init();
 
 `requests.menu` contains:
 - `populate`: Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
+`requests.events` contains:
+- `menuClicked`: The event dispatched when a menu item is clicked.
 
 ## Methods:
 `Service` has one method `request` which takes 2 parameters, the first is the request type, and the second is optional payload.
@@ -115,7 +117,7 @@ service.request(requests.toast.show, message).then(res => {
 });
 ```
 ## Events:
-There are times where Surix sends information to the app without the app requesting. When one clicks on the menu populated by the app, Surix tells the app about the click using a `EVENTS.MENU_CLICKED` event.
+There are times where Surix sends information to the app without the app requesting. When one clicks on the menu populated by the app, Surix tells the app about the click using a `requests.events.menuClicked` event.
 
 Listening to the menu click event:
 ```javascript
