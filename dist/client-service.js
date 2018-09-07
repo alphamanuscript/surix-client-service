@@ -237,7 +237,7 @@ exports.requests = {
         populate: 'sidebar.populate'
     },
     events: {
-        menuClicked: 'clickReq'
+        menuClicked: 'menu-item-clicked'
     }
 };
 
