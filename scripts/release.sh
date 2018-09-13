@@ -29,8 +29,9 @@ then
         #git tag -a v$VERSION -m "version $VERSION"
         npm version $VERSION
 
+        npm whoami
         #publish to npm
-        npm publish
+        npm publish --access public
         
         # push tags
         git push origin --tags
