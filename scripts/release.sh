@@ -27,7 +27,7 @@ then
         #Publish changes
         git push -u origin master
         #git tag -a v$VERSION -m "version $VERSION"
-        npm version $VERSION
+        npm version $VERSION --allow-same-version
         
         # push tags
         git push origin --tags
