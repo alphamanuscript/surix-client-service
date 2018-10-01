@@ -70,7 +70,7 @@ export class Service {
     }
     /**
      * Emits a custom event
-     * @param msg Message to be embeded to the custom event to be emitted
+     * @param msg Message to be embedded to the custom event to be emitted
      */
     private emit(msg: any) {
         const event: Event = new CustomEvent(`${this.prefix}${msg.name}`, {detail: msg});

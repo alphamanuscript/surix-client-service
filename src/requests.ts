@@ -13,6 +13,9 @@ export const requests = {
         populate: 'sidebar.populate'
     },
     events: {
+        menuItemClicked: 'menu-item-clicked',
+        // TODO: this is for backwards compatibility
+        // it is deprecated and will be removed in a future update
         menuClicked: 'menu-item-clicked'
     }
 }
