@@ -15,6 +15,7 @@ or
 ```javascript
 <script src="https://cdn.jsdelivr.net/npm/@surix/client-service@0.2/dist/client-service.min.js"></script>
 const service = Surix.Service.init();
+const requests = Surix.requests;
 ```
 `Service`    is the service itself.
 `requests` contains all the request types available.
@@ -41,24 +42,24 @@ const service = Surix.Service.init();
 menu payload is an array of objects:
 ```javascript
 const menuItems = [
-        {
-            icon: 'speaker_notes', 
-            // This is the icon to be displayed on the menu
-            // The icon name follows the material icon standard.
-            title: "MPESA Transactions", 
-            // This is the text displayed on the menu
-            // and also on the title bar when this item is clicked.
-            action: 'mpesa', 
-            // This is a tag, the value is abitrary. The developer 
-            // could use this to check which menu list item was clicked
-            default: true 
-            // This will be selected by default when the menu populates
-        },
-        {
-            icon: 'settings',
-            title: "Settings",
-            action: 'settings'
-        }
+    {
+        icon: 'speaker_notes', 
+        // This is the icon to be displayed on the menu
+        // The icon name follows the material icon standard.
+        title: "MPESA Transactions", 
+        // This is the text displayed on the menu
+        // and also on the title bar when this item is clicked.
+        action: 'mpesa', 
+        // This is a tag, the value is abitrary. The developer 
+        // could use this to check which menu list item was clicked
+        default: true 
+        // This will be selected by default when the menu populates
+    },
+    {
+        icon: 'settings',
+        title: "Settings",
+        action: 'settings'
+    }
 ]
 ```
 
