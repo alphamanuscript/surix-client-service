@@ -1,6 +1,6 @@
 {
   "name": "@surix/client-service",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "A service that helps developers intereact with surix data from the apps they develop",
   "main": "./dist/client-service.js",
   "types": "./dist/index.d.ts",
