@@ -3,6 +3,8 @@ export declare const requests: {
         createEntity: string;
         project: string;
         getEntities: string;
+        getAppData: string;
+        updateAppData: string;
     };
     toast: {
         show: string;
@@ -11,6 +13,7 @@ export declare const requests: {
         populate: string;
     };
     events: {
+        menuItemClicked: string;
         menuClicked: string;
     };
 };
