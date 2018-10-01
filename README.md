@@ -1,19 +1,21 @@
 # App Service
-This app facilitates the communication between Surix app and Surix itself
+
+This library allows Surix apps to communicate with the host Surix web client.
 
 The service needs to be imported first before use
 ```javascript
-import { Service, requests } from 'surix-tools';
-const surix = Service.init();
+import { Service, requests } from '@surix/client-service';
+const service = Service.init();
 ```
 or
 ```javascript
-const Surix = require('surix-tools'); 
-const surix = Surix.Service.init();
+const Surix = require('@surix/client-service'); 
+const service = Surix.Service.init();
+const requests = Surix.requests;
 ```
 or
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/@surix/client-service@0.2.4/dist/client-service.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@surix/client-service@0.2.5/dist/client-service.min.js"></script>
 const service = Surix.Service.init();
 const requests = Surix.requests;
 ```
@@ -71,7 +73,20 @@ service.request(requests.menu.populate, menuItems).then(res => {
     // Handle the error
 });
 ```
-### 
+
+### Show a Toast Message:
+```javascript
+const toast = {
+    message: 'Welcome to Surix',
+    type: 'info' // could also be 'success', 'error'
+};
+service.request(requests.toast.show, toast).then(res => {
+    // Toast was displayed successfully 
+}).catch(err => {
+    // Handle error
+});
+```
+
 ### Fetch Entities:
 ```javascript
 // Fetch entities
@@ -138,23 +153,13 @@ const update = {
         }
     }
 };
-service.request(requests.data.updateAppData).then(updatedData => {
+service.request(requests.data.updateAppData, update).then(updatedData => {
     // do something with updated data
 }).catch(err => {
     // handler error
 });
 ```
 
-## Show a Toast Message:
-```javascript
-const message = 'Welcome to Surix';
-
-service.request(requests.toast.show, message).then(res => {
-    // Toast was displayed successfully 
-}).catch(err => {
-    // Handle error
-});
-```
 ## Events:
 There are times where Surix sends information to the app without the app requesting.
 
