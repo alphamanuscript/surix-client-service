@@ -183,10 +183,10 @@ var Service = /** @class */ (function () {
     };
     /**
      * Emits a custom event
-     * @param msg Message to be embeded to the custom event to be emitted
+     * @param msg Message to be embedded to the custom event to be emitted
      */
     Service.prototype.emit = function (msg) {
-        var event = new CustomEvent("" + this.prefix + msg.type, { detail: msg });
+        var event = new CustomEvent("" + this.prefix + msg.name, { detail: msg });
         document.dispatchEvent(event);
     };
     /**
@@ -200,8 +200,9 @@ var Service = /** @class */ (function () {
                 case 'rpcRep':
                     _this.handleRpcReq(msg, _this);
                     break;
-                default:
+                case 'event':
                     _this.emit(msg);
+                    break;
             }
         });
     };
@@ -228,7 +229,9 @@ exports.requests = {
     data: {
         createEntity: 'data.createEntity',
         project: 'data.project',
-        getEntities: 'data.getEntities'
+        getEntities: 'data.getEntities',
+        getAppData: 'data.getAppData',
+        updateAppData: 'data.updateAppData'
     },
     toast: {
         show: 'toast.show',
@@ -237,6 +240,9 @@ exports.requests = {
         populate: 'sidebar.populate'
     },
     events: {
+        menuItemClicked: 'menu-item-clicked',
+        // TODO: this is for backwards compatibility
+        // it is deprecated and will be removed in a future update
         menuClicked: 'menu-item-clicked'
     }
 };

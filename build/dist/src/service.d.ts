@@ -38,7 +38,7 @@ export declare class Service {
     private handleRpcReq;
     /**
      * Emits a custom event
-     * @param msg Message to be embeded to the custom event to be emitted
+     * @param msg Message to be embedded to the custom event to be emitted
      */
     private emit;
     /**
