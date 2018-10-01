@@ -13,16 +13,18 @@ const surix = Surix.Service.init();
 ```
 or
 ```javascript
-<script src="local/dist/surix-service.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@surix/client-service@0.2/dist/client-service.min.js"></script>
 const service = Surix.Service.init();
 ```
 `Service`    is the service itself.
 `requests` contains all the request types available.
 
 `requests.data` contains:
-- `getEntities` Fetches entities from the current Surix project.
+- `getEntities` Queries entities from the current Surix project.
 - `createEntities`: Creates an entity in the current Surix project (expects entity: any parameter).
 - `project`: Fetches the current Surix project.
+- `getAppData`: Fetches app data stored by the app in the current project
+- `updateAppData`: Updates/adds app data to the current project
 
 `requests.toast` contains:
 - `show`: Displays a message on Surix toast (expects message: string parameter).
@@ -30,7 +32,7 @@ const service = Surix.Service.init();
 `requests.menu` contains:
 - `populate`: Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
 `requests.events` contains:
-- `menuClicked`: The event dispatched when a menu item is clicked.
+- `menuItemClicked`: The event dispatched when a menu item is clicked.
 
 ## Methods:
 `Service` has one method `request` which takes 2 parameters, the first is the request type, and the second is optional payload.
@@ -72,7 +74,13 @@ service.request(requests.menu.populate, menuItems).then(res => {
 ### Fetch Entities:
 ```javascript
 // Fetch entities
-service.request(requests.data.getEntities).then(res => {
+const query = {
+    query: {
+        age: { $gt: 20 }
+    },
+    tags: ['people']
+};
+service.request(requests.data.getEntities, query).then(res => {
     // Do something with the response
 }).catch(err => {
     // Handle error
@@ -106,6 +114,36 @@ service.request(requests.data.project).then(project => {
 });
 ```
 
+### Get App Data:
+```javascript
+service.request(requests.data.getAppData).then(data => {
+    // do something with the data
+}).catch(err => {
+    //handler error
+});
+```
+
+### Update App Data:
+```javascript
+const update = {
+    data: {
+        theme: {
+            type: 'text',
+            value: 'blue'
+        },
+        active: {
+            type: 'boolean',
+            value: true
+        }
+    }
+};
+service.request(requests.data.updateAppData).then(updatedData => {
+    // do something with updated data
+}).catch(err => {
+    // handler error
+});
+```
+
 ## Show a Toast Message:
 ```javascript
 const message = 'Welcome to Surix';
@@ -117,7 +155,11 @@ service.request(requests.toast.show, message).then(res => {
 });
 ```
 ## Events:
-There are times where Surix sends information to the app without the app requesting. When one clicks on the menu populated by the app, Surix tells the app about the click using a `requests.events.menuClicked` event.
+There are times where Surix sends information to the app without the app requesting.
+
+### Menu Item Clicked
+
+When one clicks on the menu populated by the app, Surix tells the app about the click using a `requests.events.menuItemClicked` event.
 
 Listening to the menu click event:
 ```javascript
@@ -131,5 +173,5 @@ let handler = (event) => {
             // The mpesa menu item was clicked
     }
 
-service.on(requests.events.menuClicked, handler);
+service.on(requests.events.menuItemClicked, handler);
 ```
