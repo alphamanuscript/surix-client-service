@@ -3,6 +3,10 @@ export declare const requests: {
         createEntity: string;
         project: string;
         getEntities: string;
+        getEntityById: string;
+        addTagsToEntity: string;
+        removeTagsFromEntity: string;
+        getTags: string;
         getAppData: string;
         updateAppData: string;
     };
