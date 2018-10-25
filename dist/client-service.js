@@ -237,7 +237,7 @@ exports.requests = {
         show: 'toast.show',
     },
     menu: {
-        populate: 'sidebar.populate'
+        populate: 'menu.populate'
     },
     events: {
         menuItemClicked: 'menu-item-clicked',
