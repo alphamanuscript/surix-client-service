@@ -23,8 +23,12 @@ const requests = Surix.requests;
 `requests` contains all the request types available.
 
 `requests.data` contains:
+- `createEntity`: Creates an entity in the current Surix project (expects entity: any parameter).
 - `getEntities` Queries entities from the current Surix project.
-- `createEntities`: Creates an entity in the current Surix project (expects entity: any parameter).
+- `getEntityById`: Gets a single entity by its Surix id.
+- `addTagsToEntity`: Add tags to an existing entity.
+- `removeTagsFromEntity`: Removes tags from an entity.
+- `getTags`: Gets all the entity tags in the project.
 - `project`: Fetches the current Surix project.
 - `getAppData`: Fetches app data stored by the app in the current project
 - `updateAppData`: Updates/adds app data to the current project
@@ -96,13 +100,23 @@ const query = {
     },
     tags: ['people']
 };
-service.request(requests.data.getEntities, query).then(res => {
+service.request(requests.data.getEntities, query).then((entities) => {
     // Do something with the response
 }).catch(err => {
     // Handle error
 });
 ```
-### 
+
+### Fetch and entity by its Surix ID
+```javascript
+const id = '1I7OBNmpPRYMS3s6WmoxeA';
+service.request(requests.data.getEntityById, id).then((entity) => {
+    // Do something with the entity
+}).catch(err => {
+    // Handle error
+});
+```
+
 ### Create Entity:
 ```javascript
 // Create an Entity
@@ -114,11 +128,62 @@ const entity = {
     }
 };
 
-service.request(requests.data.createEntity, entity).then(entity => {
+service.request(requests.data.createEntity, entity).then((createdEntity) => {
     // Do something with the newly created entity
 }).catch(err => {
     // Handle the error
 });
+```
+
+### Add tags to an entity
+```javascript
+const args = {
+    tags: ['people', 'friends'],
+    entityId: '1I7OBNmpPRYMS3s6WmoxeA'
+};
+
+service.request(requests.data.addTagsToEntity, args).then((updatedEntity) => {
+    // Do something with the updated entity
+}).catch(err => {
+    // Handle the error
+});
+```
+
+**Note**: And entity cannot have duplicate tags. If a tag is already in
+the entity, it will be ignored.
+
+### Remove tags from an entity
+```javascript
+const args = {
+    tags: ['people', 'friends'],
+    entityId: '1I7OBNmpPRYMS3s6WmoxeA'
+};
+
+service.request(requests.data.removeTagsFromEntity, args).then((updatedEntity) => {
+    // Do something with the updated entity
+}).catch(err => {
+    // Handle the error
+});
+```
+
+**Note**: Tags that are not in the entity will be ignored.
+
+### Get all tags in the project
+```javascript
+service.request(requests.data.getTags).then((tags) => {
+    // Do something with the tags
+}).catch((err) => {
+    // handle error
+});
+```
+
+The response of the request is an array of tag objects:
+```javascript
+[
+    { name: 'contacts' },
+    { name: 'products' },
+    { name: 'messages' }
+]
 ```
 
 ### Fetch Project:
