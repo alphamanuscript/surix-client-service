@@ -3,6 +3,10 @@ export const requests = {
         createEntity: 'data.createEntity',
         project: 'data.project',
         getEntities: 'data.getEntities',
+        getEntityById: 'data.getEntityById',
+        addTagsToEntity: 'data.addTagsToEntity',
+        removeTagsFromEntity: 'data.removeTagsFromEntity',
+        getTags: 'data.getTags',
         getAppData: 'data.getAppData',
         updateAppData: 'data.updateAppData'
     },
