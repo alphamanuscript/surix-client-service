@@ -78,7 +78,7 @@ describe('Requests', async () => {
                 //Tag updated successfully
            }).catch((error) => {
                //Error
-           });
+           }); 
 
            expect(window.parent.postMessage).toHaveBeenCalled();
         });
