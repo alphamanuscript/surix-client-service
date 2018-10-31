@@ -29,6 +29,7 @@ const requests = Surix.requests;
 - `addTagsToEntity`: Add tags to an existing entity.
 - `removeTagsFromEntity`: Removes tags from an entity.
 - `getTags`: Gets all the entity tags in the project.
+- `updateTag`: Updates the specified tag in an entity. <!--readme added-->
 - `project`: Fetches the current Surix project.
 - `getAppData`: Fetches app data stored by the app in the current project
 - `updateAppData`: Updates/adds app data to the current project
@@ -167,6 +168,22 @@ service.request(requests.data.removeTagsFromEntity, args).then((updatedEntity) =
 ```
 
 **Note**: Tags that are not in the entity will be ignored.
+
+### Updating a tag in an entity
+```javascript
+const args = {
+    tags: 'people',
+    update: {
+        name: 'persons'
+    }
+};
+
+surix.request(requests.data.updateTag, args).then(updatedTag => {
+    //Tag updated successfully
+}).catch(error) => {
+    //Error
+});
+```
 
 ### Get all tags in the project
 ```javascript
