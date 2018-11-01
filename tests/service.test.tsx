@@ -1,4 +1,5 @@
 import { Service, requests } from '..';
+import { request } from 'http';
 
 jest.spyOn(global.window.parent , 'postMessage');
 
@@ -66,5 +67,21 @@ describe('Requests', async () => {
             
             expect(window.parent.postMessage).toHaveBeenCalled();
         });
+        test('Update Tag', async() => {
+            const args = {
+                tag: 'current tag name',
+                upadate: {
+                    name: 'new tag name'
+                }
+            };
+            surix.request(requests.data.updateTag, args).then(updatedTag => {
+                //Tag updated successfully
+           }).catch((error) => {
+               //Error
+           }); 
+
+           expect(window.parent.postMessage).toHaveBeenCalled();
+        });
+        
     });
 });

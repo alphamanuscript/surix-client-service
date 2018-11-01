@@ -234,6 +234,7 @@ exports.requests = {
         addTagsToEntity: 'data.addTagsToEntity',
         removeTagsFromEntity: 'data.removeTagsFromEntity',
         getTags: 'data.getTags',
+        updateTag: 'data.updateTag',
         getAppData: 'data.getAppData',
         updateAppData: 'data.updateAppData'
     },

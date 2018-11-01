@@ -7,6 +7,7 @@ export declare const requests: {
         addTagsToEntity: string;
         removeTagsFromEntity: string;
         getTags: string;
+        updateTag: string,
         getAppData: string;
         updateAppData: string;
     };
