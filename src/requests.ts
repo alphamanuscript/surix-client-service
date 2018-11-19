@@ -9,7 +9,8 @@ export const requests = {
         getTags: 'data.getTags',
         updateTag: 'data.updateTag',
         getAppData: 'data.getAppData',
-        updateAppData: 'data.updateAppData'
+        updateAppData: 'data.updateAppData',
+        uploadFile: 'data.uploadFile',
     },
     toast: {
         show: 'toast.show',
