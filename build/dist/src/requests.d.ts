@@ -7,9 +7,12 @@ export declare const requests: {
         addTagsToEntity: string;
         removeTagsFromEntity: string;
         getTags: string;
-        updateTag: string,
+        updateTag: string;
         getAppData: string;
         updateAppData: string;
+        uploadFile: string;
+        getFileById: string;
+        getFiles: string;
     };
     toast: {
         show: string;
