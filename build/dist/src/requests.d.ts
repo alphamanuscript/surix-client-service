@@ -10,7 +10,7 @@ export declare const requests: {
         updateTag: string;
         getAppData: string;
         updateAppData: string;
-        uploadFile: string;
+        createFile: string;
         getFileById: string;
         getFiles: string;
     };

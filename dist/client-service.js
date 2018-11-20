@@ -238,7 +238,7 @@ exports.requests = {
         updateTag: 'data.updateTag',
         getAppData: 'data.getAppData',
         updateAppData: 'data.updateAppData',
-        uploadFile: 'data.uploadFile',
+        createFile: 'data.createFile',
         getFileById: 'data.getFileById',
         getFiles: 'data.getFiles'
     },
