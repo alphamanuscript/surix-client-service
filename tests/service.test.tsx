@@ -1,5 +1,10 @@
 import { Service, requests } from '..';
+// @ts-ignore
+import { request } from 'http';
+//@ts-ignore
+import jest from 'jest';
 
+// @ts-ignore
 jest.spyOn(global.window.parent , 'postMessage');
 
 describe('Requests', async () => {
@@ -66,5 +71,21 @@ describe('Requests', async () => {
             
             expect(window.parent.postMessage).toHaveBeenCalled();
         });
+        test('Update Tag', async() => {
+            const args = {
+                tag: 'current tag name',
+                upadate: {
+                    name: 'new tag name'
+                }
+            };
+            surix.request(requests.data.updateTag, args).then(updatedTag => {
+                //Tag updated successfully
+           }).catch((error) => {
+               //Error
+           }); 
+
+           expect(window.parent.postMessage).toHaveBeenCalled();
+        });
+        
     });
 });

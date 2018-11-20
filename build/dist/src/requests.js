@@ -1,4 +1,6 @@
-export const requests = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.requests = {
     data: {
         createEntity: 'data.createEntity',
         project: 'data.project',
@@ -10,9 +12,7 @@ export const requests = {
         updateTag: 'data.updateTag',
         getAppData: 'data.getAppData',
         updateAppData: 'data.updateAppData',
-        createFile: 'data.createFile',
-        getFileById: 'data.getFileById',
-        getFiles: 'data.getFiles'
+        uploadFile: 'data.uploadFile',
     },
     toast: {
         show: 'toast.show',
@@ -26,4 +26,5 @@ export const requests = {
         // it is deprecated and will be removed in a future update
         menuClicked: 'menu-item-clicked'
     }
-}
+};
+//# sourceMappingURL=requests.js.map

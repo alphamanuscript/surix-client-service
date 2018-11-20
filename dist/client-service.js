@@ -156,9 +156,7 @@ var Service = /** @class */ (function () {
         var _this = this;
         var reqId = Math.random();
         return new Promise(function (resolve, reject) {
-            _this.rpcTracker[reqId] = {
-                resolve: resolve, reject: reject
-            };
+            _this.rpcTracker[reqId] = { resolve: resolve, reject: reject };
             var message = {
                 name: name,
                 body: body,
@@ -180,6 +178,9 @@ var Service = /** @class */ (function () {
         else {
             handler.rpcTracker[msg.id].reject(msg.body);
         }
+        // Remove the promise from the handler because 
+        // it has already been taken care of.
+        // delete handler.rpcTracker[msg.id];
     };
     /**
      * Emits a custom event
@@ -234,8 +235,12 @@ exports.requests = {
         addTagsToEntity: 'data.addTagsToEntity',
         removeTagsFromEntity: 'data.removeTagsFromEntity',
         getTags: 'data.getTags',
+        updateTag: 'data.updateTag',
         getAppData: 'data.getAppData',
-        updateAppData: 'data.updateAppData'
+        updateAppData: 'data.updateAppData',
+        createFile: 'data.createFile',
+        getFileById: 'data.getFileById',
+        getFiles: 'data.getFiles'
     },
     toast: {
         show: 'toast.show',
