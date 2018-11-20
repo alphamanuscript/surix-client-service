@@ -1,6 +1,10 @@
 import { Service, requests } from '..';
+// @ts-ignore
 import { request } from 'http';
+//@ts-ignore
+import jest from 'jest';
 
+// @ts-ignore
 jest.spyOn(global.window.parent , 'postMessage');
 
 describe('Requests', async () => {

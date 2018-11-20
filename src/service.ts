@@ -44,9 +44,7 @@ export class Service {
     private rpc(name: string, body: any) {
         const reqId = Math.random();
         return new Promise((resolve, reject) => {
-            this.rpcTracker[reqId] = {
-                resolve, reject
-            };
+            this.rpcTracker[reqId] = { resolve, reject };
             const message = {
                 name, 
                 body, 
@@ -66,7 +64,10 @@ export class Service {
             handler.rpcTracker[msg.id].resolve(msg.body);
         } else {
             handler.rpcTracker[msg.id].reject(msg.body);
-        }  
+        }
+        // Remove the promise from the handler because 
+        // it has already been taken care of.
+        // delete handler.rpcTracker[msg.id];
     }
     /**
      * Emits a custom event

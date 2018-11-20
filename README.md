@@ -32,7 +32,10 @@ const requests = Surix.requests;
 - `updateTag`: Updates the specified tag in an entity. <!--readme added-->
 - `project`: Fetches the current Surix project.
 - `getAppData`: Fetches app data stored by the app in the current project
-- `updateAppData`: Updates/adds app data to the current project
+- `updateAppData`: Updates/adds app data to the current project.
+- `createFile`: Creates a file in the current Surix project (expects fileParams: any parameter).
+- `getFiles`: Queries files from the current Surix project.
+- `getFileById`: Gets a single file by its Surix id.
 
 `requests.toast` contains:
 - `show`: Displays a message on Surix toast (expects message: string parameter).
@@ -240,6 +243,47 @@ service.request(requests.data.updateAppData, update).then(updatedData => {
 }).catch(err => {
     // handler error
 });
+```
+### Upload a file:
+```javascript
+
+const file = document.getElementById('file'); // Assuming the element is an input of type file
+
+const fileParmas = {
+    name: 'My picture',      // File title
+    mimeType: file.type,     // Image mime type (this type is checked against the type of the file itself)
+    public: true             // Is the file publicly accessible?
+    file,                    // The file itself (has to be of type File)
+}
+
+service.request(requests.data.createFile, fileParams).then(fileDetails => {
+    // Do something with the file details
+}).catch(err => {
+    // Handle error
+})
+```
+
+### Fetch a file by ID
+```javascript
+const fileId = '123';
+
+service.request(requests.data.getFileById, fileId).then(fileDetails => {
+    // Do something with the fileDetails
+    // NOTE: fileDetails has  field downloadUrl that contains a url 
+    // to the actual file
+}).catch(err => {
+    // Handle error
+});
+```
+
+### Fetch all files
+```javascript
+
+service.request(requests.data.getFiles).then(files => {
+    // DO something with the files, file is an array of fileDetails
+}).catch(err => {
+    // Handle error
+})
 ```
 
 ## Events:
