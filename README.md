@@ -250,7 +250,7 @@ service.request(requests.data.updateAppData, update).then(updatedData => {
 const file = document.getElementById('file'); // Assuming the element is an input of type file
 
 const fileParmas = {
-    name: 'By picture',
+    name: 'My picture',      // File title
     mimeType: file.type,     // Image mime type (this type is checked against the type of the file itself)
     public: true             // Is the file publicly accessible?
     file,                    // The file itself (has to be of type File)
