@@ -3,6 +3,14 @@ export interface FieldPair {
     value: boolean | string | number | UnitField | EntityListValueData | EntityFileValueData;
 }
 
+export interface SimpleFieldPair {
+    type: 'boolean' | 'text' | 'phone' | 'number' | 'datetime';
+    value: boolean | string | number;
+}
+
+export interface AppDataField {
+    [fieldName: string]: SimpleFieldPair;
+}
 export interface EntityFileValueData {
     ref: string
 }
@@ -22,6 +30,9 @@ export interface EntityData {
     tags?: string[]
 }
 
+export interface AppData {
+    data: AppDataField;
+}
 export interface PersistedEntityData extends HasId, HasTimestamps, EntityData {}
 
 export interface ToastParams {

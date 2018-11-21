@@ -1,5 +1,5 @@
 import { Service } from "../..";
-import { Project, FileDetails, FileParams, TagsParams, TagUpdateParams, Tag, EntityData, PersistedEntityData } from "../types";
+import { Project, FileDetails, FileParams, TagsParams, TagUpdateParams, Tag, EntityData, PersistedEntityData, AppData } from "../types";
 import { requests } from "../../build/dist";
 
 export class Data {
@@ -77,11 +77,11 @@ export class Data {
         return await this._service.request(requests.data.getTags);
     }
 
-    public getAppData() {
-
+    public async getAppData() {
+        return await this._service.request(requests.data.getAppData);
     }
-    public updateAppData() {
-
+    public async updateAppData(appData: AppData) {
+        return await this._service.request(requests.data.updateAppData, appData);
     }
 
     /**
