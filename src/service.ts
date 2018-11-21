@@ -1,103 +1,50 @@
+import { ServiceBase } from './service-base';
+import { Data } from './functions/data';
+import { Toast } from './functions/toast';
+import { Menu } from './functions/menu';
+export class Service extends ServiceBase {
 
-export class Service {
-    private rpcTracker: any;
-    private static instance?: Service = undefined;
-    private prefix: string = '__surix__';
+    private _data: Data;
+    private _toast: Toast;
+    private _menu: Menu;
 
+    /**
+     * Returns all data methods
+     */
+    public get data () {
+        return this._data;
+    }
+    /**
+     * Returns all toast methods
+     */
+    public get toast () {
+        return this._toast;
+    }
+    /**
+     * Returns all menu methods
+     */
+    public get menu () {
+        return this._menu;
+    }
     /**
      * Constructor
      */
     private constructor() {
-        this.rpcTracker = {};
-        this.setUpService();
-    }
-    /**
-     * Sends a request to Surix
-     * @param type Request type
-     * @param payload Request payload 
-     * @returns Promise Returns a promise
-     */
-    public request(type: string, payload?: any) {
-        return this.rpc(type, payload);
+        super();
+        this._data = new Data();
+        this._toast = new Toast();
+        this._menu = new Menu();
     }
 
     /**
-     * An event listener wrapper 
-     * @param eventName A string representing the event name
-     * @param handler a function that handles event
+     * Provides Surix singleton
      */
-    public on(eventName: string, handler: any) {
-        document.addEventListener(`${this.prefix}${eventName}`, handler);
-    }
-    /**
-     * Sends the specified message to Surix
-     * @param msg Message to send to Surix
-     */
-    private sendMessage(msg: any) {
-        window.parent.postMessage(msg, '*');
-    }
-    /**
-     * Creates a promise then sends the message
-     * @param name Name of the request to send to Surix
-     * @param body 
-     */
-    private rpc(name: string, body: any) {
-        const reqId = Math.random();
-        return new Promise((resolve, reject) => {
-            this.rpcTracker[reqId] = { resolve, reject };
-            const message = {
-                name, 
-                body, 
-                type: 'rpcReq', 
-                id: reqId
-            }
-            this.sendMessage(message);
-        });
-    }
-    /**
-     * This handles the rpcReq type responses from Surix
-     * @param msg Response from Surix
-     * @param handler Handles the response
-     */
-    private handleRpcReq(msg: any, handler: any) {
-        if(msg.success) {
-            handler.rpcTracker[msg.id].resolve(msg.body);
-        } else {
-            handler.rpcTracker[msg.id].reject(msg.body);
-        }
-        // Remove the promise from the handler because 
-        // it has already been taken care of.
-        // delete handler.rpcTracker[msg.id];
-    }
-    /**
-     * Emits a custom event
-     * @param msg Message to be embedded to the custom event to be emitted
-     */
-    private emit(msg: any) {
-        const event: Event = new CustomEvent(`${this.prefix}${msg.name}`, {detail: msg});
-        document.dispatchEvent(event);
-    }
-    /**
-     * Sets up Surix service
-     */
-    private setUpService() {
-        window.addEventListener('message', event => {
-            const msg: any = event.data;
-            switch(msg.type) {
-                case 'rpcRep':
-                    this.handleRpcReq(msg, this);
-                    break;
-                case 'event':
-                    this.emit(msg);
-                    break;
-            }
-        });
-    }
-
     public static init() {
         if(Service.instance == undefined){
             Service.instance = new Service();
         }
         return Service.instance;
     }
+    
+    private static instance?: Service = undefined;
 }
