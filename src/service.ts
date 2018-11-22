@@ -11,19 +11,19 @@ export class Service extends ServiceBase {
     /**
      * Returns all data methods
      */
-    public get data () {
+    public get data (): Data {
         return this._data;
     }
     /**
      * Returns all toast methods
      */
-    public get toast () {
+    public get toast (): Toast {
         return this._toast;
     }
     /**
      * Returns all menu methods
      */
-    public get menu () {
+    public get menu (): Menu {
         return this._menu;
     }
     /**
@@ -39,7 +39,7 @@ export class Service extends ServiceBase {
     /**
      * Provides Surix singleton
      */
-    public static init() {
+    public static init(): Service {
         if(Service.instance == undefined){
             Service.instance = new Service();
         }

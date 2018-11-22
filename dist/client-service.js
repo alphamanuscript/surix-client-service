@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -101,10 +101,109 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var service_1 = __webpack_require__(2);
-exports.Service = service_1.Service;
-var requests_1 = __webpack_require__(9);
-exports.requests = requests_1.requests;
+var ServiceBase = /** @class */ (function () {
+    function ServiceBase() {
+        this.prefix = '__surix__';
+        this.rpcTracker = {};
+        this.setUpService();
+    }
+    /**
+     * Sends a request to Surixs
+     * @param type Request type
+     * @param payload Request payload
+     */
+    ServiceBase.prototype.internalRequest = function (type, payload) {
+        return this.rpc(type, payload);
+    };
+    /**
+     * Sends a request to Surix
+     * ====== TO BE DEPRICATED IN FUTURE =======
+     * @param type Request type
+     * @param payload Request payload
+     * @returns Promise Returns a promise
+     */
+    ServiceBase.prototype.request = function (type, payload) {
+        console.warn("service.request method will be DEPRICATED in future. Please consider using service." + type + " instead.");
+        return this.rpc(type, payload);
+    };
+    /**
+     * An event listener wrapper
+     * @param eventName A string representing the event name
+     * @param handler a function that handles event
+     */
+    ServiceBase.prototype.on = function (eventName, handler) {
+        document.addEventListener("" + this.prefix + eventName, handler);
+    };
+    /**
+     * Sends the specified message to Surix
+     * @param msg Message to send to Surix
+     */
+    ServiceBase.prototype.sendMessage = function (msg) {
+        window.parent.postMessage(msg, '*');
+    };
+    /**
+     * Creates a promise then sends the message
+     * @param name Name of the request to send to Surix
+     * @param body
+     */
+    ServiceBase.prototype.rpc = function (name, body) {
+        var _this = this;
+        var reqId = Math.random();
+        return new Promise(function (resolve, reject) {
+            _this.rpcTracker[reqId] = { resolve: resolve, reject: reject };
+            var message = {
+                name: name,
+                body: body,
+                type: 'rpcReq',
+                id: reqId
+            };
+            _this.sendMessage(message);
+        });
+    };
+    /**
+     * This handles the rpcReq type responses from Surix
+     * @param msg Response from Surix
+     * @param handler Handles the response
+     */
+    ServiceBase.prototype.handleRpcReq = function (msg, handler) {
+        if (msg.success) {
+            handler.rpcTracker[msg.id].resolve(msg.body);
+        }
+        else {
+            handler.rpcTracker[msg.id].reject(msg.body);
+        }
+        // Remove the promise from the handler because 
+        // it has already been taken care of.
+        delete handler.rpcTracker[msg.id];
+    };
+    /**
+     * Emits a custom event
+     * @param msg Message to be embedded to the custom event to be emitted
+     */
+    ServiceBase.prototype.emit = function (msg) {
+        var event = new CustomEvent("" + this.prefix + msg.name, { detail: msg });
+        document.dispatchEvent(event);
+    };
+    /**
+     * Sets up Surix service
+     */
+    ServiceBase.prototype.setUpService = function () {
+        var _this = this;
+        window.addEventListener('message', function (event) {
+            var msg = event.data;
+            switch (msg.type) {
+                case 'rpcRep':
+                    _this.handleRpcReq(msg, _this);
+                    break;
+                case 'event':
+                    _this.emit(msg);
+                    break;
+            }
+        });
+    };
+    return ServiceBase;
+}());
+exports.ServiceBase = ServiceBase;
 
 
 /***/ }),
@@ -114,14 +213,52 @@ exports.requests = requests_1.requests;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var service_1 = __webpack_require__(5);
-exports.Service = service_1.Service;
-var requests_1 = __webpack_require__(6);
-exports.requests = requests_1.requests;
-//# sourceMappingURL=index.js.map
+exports.requests = {
+    data: {
+        createEntity: 'data.createEntity',
+        project: 'data.project',
+        getEntities: 'data.getEntities',
+        getEntityById: 'data.getEntityById',
+        addTagsToEntity: 'data.addTagsToEntity',
+        removeTagsFromEntity: 'data.removeTagsFromEntity',
+        getTags: 'data.getTags',
+        updateTag: 'data.updateTag',
+        getAppData: 'data.getAppData',
+        updateAppData: 'data.updateAppData',
+        createFile: 'data.createFile',
+        getFileById: 'data.getFileById',
+        getFiles: 'data.getFiles'
+    },
+    toast: {
+        show: 'toast.show',
+    },
+    menu: {
+        populate: 'menu.populate'
+    },
+    events: {
+        menuItemClicked: 'menu-item-clicked',
+        // TODO: this is for backwards compatibility
+        // it is deprecated and will be removed in a future update
+        menuClicked: 'menu-item-clicked'
+    }
+};
+
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var service_1 = __webpack_require__(3);
+exports.Service = service_1.Service;
+var requests_1 = __webpack_require__(1);
+exports.requests = requests_1.requests;
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -140,10 +277,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var service_base_1 = __webpack_require__(3);
+var service_base_1 = __webpack_require__(0);
 var data_1 = __webpack_require__(4);
-var toast_1 = __webpack_require__(7);
-var menu_1 = __webpack_require__(8);
+var toast_1 = __webpack_require__(5);
+var menu_1 = __webpack_require__(6);
 var Service = /** @class */ (function (_super) {
     __extends(Service, _super);
     /**
@@ -202,113 +339,24 @@ exports.Service = Service;
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var ServiceBase = /** @class */ (function () {
-    function ServiceBase() {
-        this.prefix = '__surix__';
-        this.rpcTracker = {};
-        this.setUpService();
-    }
-    /**
-     * Sends a request to Surix
-     * @param type Request type
-     * @param payload Request payload
-     * @returns Promise Returns a promise
-     */
-    ServiceBase.prototype.request = function (type, payload) {
-        return this.rpc(type, payload);
-    };
-    /**
-     * An event listener wrapper
-     * @param eventName A string representing the event name
-     * @param handler a function that handles event
-     */
-    ServiceBase.prototype.on = function (eventName, handler) {
-        document.addEventListener("" + this.prefix + eventName, handler);
-    };
-    /**
-     * Sends the specified message to Surix
-     * @param msg Message to send to Surix
-     */
-    ServiceBase.prototype.sendMessage = function (msg) {
-        window.parent.postMessage(msg, '*');
-    };
-    /**
-     * Creates a promise then sends the message
-     * @param name Name of the request to send to Surix
-     * @param body
-     */
-    ServiceBase.prototype.rpc = function (name, body) {
-        var _this = this;
-        var reqId = Math.random();
-        return new Promise(function (resolve, reject) {
-            _this.rpcTracker[reqId] = { resolve: resolve, reject: reject };
-            var message = {
-                name: name,
-                body: body,
-                type: 'rpcReq',
-                id: reqId
-            };
-            _this.sendMessage(message);
-        });
-    };
-    /**
-     * This handles the rpcReq type responses from Surix
-     * @param msg Response from Surix
-     * @param handler Handles the response
-     */
-    ServiceBase.prototype.handleRpcReq = function (msg, handler) {
-        if (msg.success) {
-            handler.rpcTracker[msg.id].resolve(msg.body);
-        }
-        else {
-            handler.rpcTracker[msg.id].reject(msg.body);
-        }
-        // Remove the promise from the handler because 
-        // it has already been taken care of.
-        // delete handler.rpcTracker[msg.id];
-    };
-    /**
-     * Emits a custom event
-     * @param msg Message to be embedded to the custom event to be emitted
-     */
-    ServiceBase.prototype.emit = function (msg) {
-        var event = new CustomEvent("" + this.prefix + msg.name, { detail: msg });
-        document.dispatchEvent(event);
-    };
-    /**
-     * Sets up Surix service
-     */
-    ServiceBase.prototype.setUpService = function () {
-        var _this = this;
-        window.addEventListener('message', function (event) {
-            var msg = event.data;
-            switch (msg.type) {
-                case 'rpcRep':
-                    _this.handleRpcReq(msg, _this);
-                    break;
-                case 'event':
-                    _this.emit(msg);
-                    break;
-            }
-        });
-    };
-    return ServiceBase;
-}());
-exports.ServiceBase = ServiceBase;
-
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -345,11 +393,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = __webpack_require__(0);
-var dist_1 = __webpack_require__(1);
-var Data = /** @class */ (function () {
+var requests_1 = __webpack_require__(1);
+var service_base_1 = __webpack_require__(0);
+var Data = /** @class */ (function (_super) {
+    __extends(Data, _super);
+    //public _service: Service;
     function Data() {
-        this._service = __1.Service.init();
+        return _super.call(this) || this;
+        //this._service = Service.init();
     }
     /**
      * Saves an entity in Surix
@@ -360,7 +411,7 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.createEntity, entity)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.createEntity, entity)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -374,7 +425,7 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.project)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.project)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -389,7 +440,7 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.getEntities, query)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.getEntities, query)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -404,7 +455,7 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.getEntityById, id)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.getEntityById, id)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -419,7 +470,7 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.addTagsToEntity, params)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.addTagsToEntity, params)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -433,7 +484,7 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.removeTagsFromEntity, params)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.removeTagsFromEntity, params)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -447,7 +498,7 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.updateTag, params)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.updateTag, params)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -461,15 +512,31 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.getTags)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.getTags)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
     Data.prototype.getAppData = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.getAppData)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     };
-    Data.prototype.updateAppData = function () {
+    Data.prototype.updateAppData = function (appData) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.updateAppData, appData)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     };
     /**
      * Creates a file on Surix linked to the current project.
@@ -480,7 +547,7 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.createFile, file)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.createFile, file)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -495,7 +562,7 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.getFileById, id)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.getFileById, id)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -509,14 +576,14 @@ var Data = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._service.request(dist_1.requests.data.getFiles)];
+                    case 0: return [4 /*yield*/, this.internalRequest(requests_1.requests.data.getFiles)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
     return Data;
-}());
+}(service_base_1.ServiceBase));
 exports.Data = Data;
 
 
@@ -526,111 +593,40 @@ exports.Data = Data;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Service = /** @class */ (function () {
-    /**
-     * Constructor
-     */
-    function Service() {
-        this.prefix = '__surix__';
-        this.rpcTracker = {};
-        this.setUpService();
+var requests_1 = __webpack_require__(1);
+var service_base_1 = __webpack_require__(0);
+var Toast = /** @class */ (function (_super) {
+    __extends(Toast, _super);
+    // private _service: Service;
+    function Toast() {
+        return _super.call(this) || this;
+        //this._service = Service.init();
     }
     /**
-     * Sends a request to Surix
-     * @param type Request type
-     * @param payload Request payload
-     * @returns Promise Returns a promise
+     * Displays the message provided on toast on Surix
+     * @param message ToastMessage message to show on the toast
      */
-    Service.prototype.request = function (type, payload) {
-        return this.rpc(type, payload);
+    Toast.prototype.show = function (message) {
+        return this.internalRequest(requests_1.requests.toast.show, message);
     };
-    /**
-     * An event listener wrapper
-     * @param eventName A string representing the event name
-     * @param handler a function that handles event
-     */
-    Service.prototype.on = function (eventName, handler) {
-        document.addEventListener("" + this.prefix + eventName, handler);
-    };
-    /**
-     * Sends the specified message to Surix
-     * @param msg Message to send to Surix
-     */
-    Service.prototype.sendMessage = function (msg) {
-        window.parent.postMessage(msg, '*');
-    };
-    /**
-     * Creates a promise then sends the message
-     * @param name Name of the request to send to Surix
-     * @param body
-     */
-    Service.prototype.rpc = function (name, body) {
-        var _this = this;
-        var reqId = Math.random();
-        return new Promise(function (resolve, reject) {
-            _this.rpcTracker[reqId] = { resolve: resolve, reject: reject };
-            var message = {
-                name: name,
-                body: body,
-                type: 'rpcReq',
-                id: reqId
-            };
-            _this.sendMessage(message);
-        });
-    };
-    /**
-     * This handles the rpcReq type responses from Surix
-     * @param msg Response from Surix
-     * @param handler Handles the response
-     */
-    Service.prototype.handleRpcReq = function (msg, handler) {
-        if (msg.success) {
-            handler.rpcTracker[msg.id].resolve(msg.body);
-        }
-        else {
-            handler.rpcTracker[msg.id].reject(msg.body);
-        }
-        // Remove the promise from the handler because 
-        // it has already been taken care of.
-        // delete handler.rpcTracker[msg.id];
-    };
-    /**
-     * Emits a custom event
-     * @param msg Message to be embedded to the custom event to be emitted
-     */
-    Service.prototype.emit = function (msg) {
-        var event = new CustomEvent("" + this.prefix + msg.name, { detail: msg });
-        document.dispatchEvent(event);
-    };
-    /**
-     * Sets up Surix service
-     */
-    Service.prototype.setUpService = function () {
-        var _this = this;
-        window.addEventListener('message', function (event) {
-            var msg = event.data;
-            switch (msg.type) {
-                case 'rpcRep':
-                    _this.handleRpcReq(msg, _this);
-                    break;
-                case 'event':
-                    _this.emit(msg);
-                    break;
-            }
-        });
-    };
-    Service.init = function () {
-        if (Service.instance == undefined) {
-            Service.instance = new Service();
-        }
-        return Service.instance;
-    };
-    Service.instance = undefined;
-    return Service;
-}());
-exports.Service = Service;
-//# sourceMappingURL=service.js.map
+    return Toast;
+}(service_base_1.ServiceBase));
+exports.Toast = Toast;
+
 
 /***/ }),
 /* 6 */
@@ -638,121 +634,39 @@ exports.Service = Service;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.requests = {
-    data: {
-        createEntity: 'data.createEntity',
-        project: 'data.project',
-        getEntities: 'data.getEntities',
-        getEntityById: 'data.getEntityById',
-        addTagsToEntity: 'data.addTagsToEntity',
-        removeTagsFromEntity: 'data.removeTagsFromEntity',
-        getTags: 'data.getTags',
-        updateTag: 'data.updateTag',
-        getAppData: 'data.getAppData',
-        updateAppData: 'data.updateAppData',
-        uploadFile: 'data.uploadFile',
-    },
-    toast: {
-        show: 'toast.show',
-    },
-    menu: {
-        populate: 'menu.populate'
-    },
-    events: {
-        menuItemClicked: 'menu-item-clicked',
-        // TODO: this is for backwards compatibility
-        // it is deprecated and will be removed in a future update
-        menuClicked: 'menu-item-clicked'
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
     }
-};
-//# sourceMappingURL=requests.js.map
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = __webpack_require__(0);
-var dist_1 = __webpack_require__(1);
-var Toast = /** @class */ (function () {
-    function Toast() {
-        this._service = __1.Service.init();
-    }
-    /**
-     * Displays the message provided on toast on Surix
-     * @param message ToastMessage message to show on the toast
-     */
-    Toast.prototype.show = function (message) {
-        return this._service.request(dist_1.requests.toast.show, message);
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    return Toast;
-}());
-exports.Toast = Toast;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var dist_1 = __webpack_require__(1);
-var Menu = /** @class */ (function () {
+var requests_1 = __webpack_require__(1);
+var service_base_1 = __webpack_require__(0);
+var Menu = /** @class */ (function (_super) {
+    __extends(Menu, _super);
+    //public _service: Service;
     function Menu() {
-        this._service = dist_1.Service.init();
+        return _super.call(this) || this;
+        //this._service = Service.init();
     }
     /**
      * Populates Surix app menu with the provided items
      * @param menu MenuItem[] menu items
      */
     Menu.prototype.populate = function (menu) {
-        return this._service.request(dist_1.requests.menu.populate, menu);
+        return this.internalRequest(requests_1.requests.menu.populate, menu);
     };
     return Menu;
-}());
+}(service_base_1.ServiceBase));
 exports.Menu = Menu;
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.requests = {
-    data: {
-        createEntity: 'data.createEntity',
-        project: 'data.project',
-        getEntities: 'data.getEntities',
-        getEntityById: 'data.getEntityById',
-        addTagsToEntity: 'data.addTagsToEntity',
-        removeTagsFromEntity: 'data.removeTagsFromEntity',
-        getTags: 'data.getTags',
-        updateTag: 'data.updateTag',
-        getAppData: 'data.getAppData',
-        updateAppData: 'data.updateAppData',
-        createFile: 'data.createFile',
-        getFileById: 'data.getFileById',
-        getFiles: 'data.getFiles'
-    },
-    toast: {
-        show: 'toast.show',
-    },
-    menu: {
-        populate: 'menu.populate'
-    },
-    events: {
-        menuItemClicked: 'menu-item-clicked',
-        // TODO: this is for backwards compatibility
-        // it is deprecated and will be removed in a future update
-        menuClicked: 'menu-item-clicked'
-    }
-};
 
 
 /***/ })

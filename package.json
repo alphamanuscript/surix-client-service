@@ -16,10 +16,9 @@
     "webpack-cli": "^3.1.0"
   },
   "scripts": {
-    "local:build": "yarn clean && node_modules/.bin/webpack --output-path $PWD/local/dist --mode development",
-    "build": "yarn clean && node_modules/.bin/webpack --mode production",
+    "build": "yarn clean && node_modules/.bin/webpack --mode production && cp $PWD/src/types.d.ts dist/src",
     "release": "bash scripts/release.sh",
-    "clean": "rm -rf local dist",
+    "clean": "rm -rf local dist build",
     "test": "jest"
   },
   "repository": {

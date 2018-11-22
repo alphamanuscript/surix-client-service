@@ -6,13 +6,25 @@ export class ServiceBase {
         this.rpcTracker = {};
         this.setUpService();
     }
+
+    /**
+     * Sends a request to Surixs
+     * @param type Request type
+     * @param payload Request payload
+     */
+    protected internalRequest(type: string, payload?: any): Promise<any> {
+        return this.rpc(type, payload);
+    }
+    
     /**
      * Sends a request to Surix
+     * ====== TO BE DEPRICATED IN FUTURE =======
      * @param type Request type
      * @param payload Request payload 
      * @returns Promise Returns a promise
      */
     public request(type: string, payload?: any): Promise<any> {
+        console.warn(`service.request method will be DEPRICATED in future. Please consider using service.${type} instead.`);
         return this.rpc(type, payload);
     }
     /**
@@ -61,7 +73,7 @@ export class ServiceBase {
         }
         // Remove the promise from the handler because 
         // it has already been taken care of.
-        // delete handler.rpcTracker[msg.id];
+        delete handler.rpcTracker[msg.id];
     }
     /**
      * Emits a custom event

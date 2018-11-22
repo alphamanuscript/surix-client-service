@@ -3,7 +3,14 @@ export declare class ServiceBase {
     private prefix;
     protected constructor();
     /**
+     * Sends a request to Surixs
+     * @param type Request type
+     * @param payload Request payload
+     */
+    protected internalRequest(type: string, payload?: any): Promise<any>;
+    /**
      * Sends a request to Surix
+     * ====== TO BE DEPRICATED IN FUTURE =======
      * @param type Request type
      * @param payload Request payload
      * @returns Promise Returns a promise

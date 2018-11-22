@@ -33,6 +33,8 @@ export interface EntityData {
 export interface AppData {
     data: AppDataField;
 }
+
+export interface PersistedAppData extends AppData, HasTimestamps, HasId {}
 export interface PersistedEntityData extends HasId, HasTimestamps, EntityData {}
 
 export interface ToastParams {
@@ -100,6 +102,28 @@ interface HasId {
 }
   
 interface HasTimestamps {
-createdAt: Date;
-updatedAt: Date;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface IData {
+    createEntity(entity: EntityData): Promise<PersistedEntityData>;
+    project(): Promise<Project>;
+    getEntities(query?: any): Promise<PersistedEntityData[]>;
+    getEntityById(id: string): Promise<PersistedEntityData>;
+    addTagsToEntity(params: TagsParams): Promise<PersistedEntityData>;
+    removeTagsFromEntity(params: TagsParams): Promise<PersistedEntityData>;
+    updateTag(params: TagUpdateParams): Promise<Tag>;
+    getTags(): Promise<Tag[]>;
+    getAppData(): Promise<PersistedAppData>;
+    updateAppData(data: AppData): Promise<PersistedAppData>;
+    createFile(file: FileParams): Promise<FileDetails>;
+    getFileById(id: string): Promise<FileDetails>;
+    getFiles(): Promise<FileDetails[]>;
+}
+export interface IToast {
+    show(message: ToastParams): Promise<any>;
+}
+export interface IMenu {
+    populate(menu: MenuItem[]): Promise<any>
 }
