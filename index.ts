@@ -1,6 +1,6 @@
 import { Service } from './src/service';
 import { requests } from './src/requests';
-import { EntityData, AppData } from './src/types';
+import { PersistedEntityData } from './src/types';
 export {
     Service,
     requests

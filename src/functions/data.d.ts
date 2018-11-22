@@ -1,7 +1,6 @@
-import { Service } from "../..";
-import { Project, FileDetails, FileParams, TagsParams, TagUpdateParams, Tag, EntityData, PersistedEntityData } from "../types";
-export declare class Data {
-    _service: Service;
+import { PersistedEntityData, TagUpdateParams, FileDetails, FileParams, TagsParams, EntityData, Project, AppData, Tag, IData, PersistedAppData } from "../types";
+import { ServiceBase } from "../service-base";
+export declare class Data extends ServiceBase implements IData {
     constructor();
     /**
      * Saves an entity in Surix
@@ -47,8 +46,8 @@ export declare class Data {
      * @returns Promise<Tag[]>
      */
     getTags(): Promise<Tag[]>;
-    getAppData(): void;
-    updateAppData(): void;
+    getAppData(): Promise<PersistedAppData>;
+    updateAppData(appData: AppData): Promise<PersistedAppData>;
     /**
      * Creates a file on Surix linked to the current project.
      * @param file FileMessage message details

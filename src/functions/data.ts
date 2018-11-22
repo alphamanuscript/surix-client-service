@@ -1,12 +1,25 @@
-import { Service } from "../..";
-import { Project, FileDetails, FileParams, TagsParams, TagUpdateParams, Tag, EntityData, PersistedEntityData, AppData } from "../types";
-import { requests } from "../../build/dist";
+import {
+    PersistedEntityData,
+    TagUpdateParams,
+    FileDetails, 
+    FileParams, 
+    TagsParams,
+    EntityData,
+    Project,
+    AppData,
+    Tag,
+    IData,
+    PersistedAppData
+} from "../types";
+import { requests } from "../requests";
+import { ServiceBase } from "../service-base";
 
-export class Data {
-    public _service: Service;
+export class Data extends ServiceBase implements IData{
+    //public _service: Service;
     
     public constructor() {
-        this._service = Service.init();
+        super();
+        //this._service = Service.init();
     }
 
     /**
@@ -15,7 +28,7 @@ export class Data {
      * @returns Promise<PersistedEntityData>
      */
     public async createEntity(entity: EntityData): Promise<PersistedEntityData> {
-        return await this._service.request(requests.data.createEntity, entity);
+        return await this.internalRequest(requests.data.createEntity, entity);
     }
 
     /**
@@ -23,7 +36,7 @@ export class Data {
      * @returns Promise<Project>
      */
     public async project(): Promise<Project> {
-        return await this._service.request(requests.data.project);
+        return await this.internalRequest(requests.data.project);
     }
 
     /**
@@ -32,7 +45,7 @@ export class Data {
      * @returns Promise<PersistedEntityData[]>
      */
     public async getEntities(query?: any): Promise<PersistedEntityData[]> {
-        return await this._service.request(requests.data.getEntities, query);
+        return await this.internalRequest(requests.data.getEntities, query);
     }
 
     /**
@@ -41,7 +54,7 @@ export class Data {
      * @returns Promise<PersistedEntityData>
      */
     public async getEntityById(id: string): Promise<PersistedEntityData> {
-        return await this._service.request(requests.data.getEntityById, id);
+        return await this.internalRequest(requests.data.getEntityById, id);
     }
 
     /**
@@ -50,7 +63,7 @@ export class Data {
      * @returns Promise<PersistedEntityData>
      */
     public async addTagsToEntity(params: TagsParams): Promise<PersistedEntityData> {
-        return await this._service.request(requests.data.addTagsToEntity, params);
+        return await this.internalRequest(requests.data.addTagsToEntity, params);
     }
 
     /**
@@ -58,7 +71,7 @@ export class Data {
      * @param params TagsParams tag parameters
      */
     public async removeTagsFromEntity(params: TagsParams): Promise<PersistedEntityData> {
-        return await this._service.request(requests.data.removeTagsFromEntity, params);
+        return await this.internalRequest(requests.data.removeTagsFromEntity, params);
     }
 
     /**
@@ -66,7 +79,7 @@ export class Data {
      * @param params Update params
      */
     public async updateTag(params: TagUpdateParams): Promise<Tag> {
-        return await this._service.request(requests.data.updateTag, params);
+        return await this.internalRequest(requests.data.updateTag, params);
     }
 
     /**
@@ -74,14 +87,14 @@ export class Data {
      * @returns Promise<Tag[]>
      */
     public async getTags(): Promise<Tag[]> {
-        return await this._service.request(requests.data.getTags);
+        return await this.internalRequest(requests.data.getTags);
     }
 
-    public async getAppData() {
-        return await this._service.request(requests.data.getAppData);
+    public async getAppData(): Promise<PersistedAppData> {
+        return await this.internalRequest(requests.data.getAppData);
     }
-    public async updateAppData(appData: AppData) {
-        return await this._service.request(requests.data.updateAppData, appData);
+    public async updateAppData(appData: AppData): Promise<PersistedAppData> {
+        return await this.internalRequest(requests.data.updateAppData, appData);
     }
 
     /**
@@ -90,7 +103,7 @@ export class Data {
      * @returns Promise<FileDetails>
      */
     public async createFile(file: FileParams): Promise<FileDetails> {
-        return await this._service.request(requests.data.createFile, file);
+        return await this.internalRequest(requests.data.createFile, file);
     }
 
     /**
@@ -99,7 +112,7 @@ export class Data {
      * @returns Promise<FileDetails>
      */
     public async getFileById(id: string): Promise<FileDetails> {
-        return await this._service.request(requests.data.getFileById, id);
+        return await this.internalRequest(requests.data.getFileById, id);
     }
 
     /**
@@ -107,6 +120,6 @@ export class Data {
      * @returns Promise<FileDetails[]>
      */
     public async getFiles(): Promise<FileDetails[]>{
-        return await this._service.request(requests.data.getFiles);
+        return await this.internalRequest(requests.data.getFiles);
     }
 }

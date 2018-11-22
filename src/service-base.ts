@@ -6,23 +6,48 @@ export class ServiceBase {
         this.rpcTracker = {};
         this.setUpService();
     }
+
     /**
-     * Sends a request to Surix
+     * Sends a request to Surixs
+     * @param type Request type
+     * @param payload Request payload
+     */
+    protected internalRequest(type: string, payload?: any): Promise<any> {
+        return this.rpc(type, payload);
+    }
+    
+    /**
+     * Sends a request to Surix     
+     * ====== TO BE DEPRICATED IN FUTURE =======
      * @param type Request type
      * @param payload Request payload 
      * @returns Promise Returns a promise
      */
     public request(type: string, payload?: any): Promise<any> {
+        console.warn(`service.request method will be DEPRICATED in future. Please consider using service.${type} instead.`);
         return this.rpc(type, payload);
     }
+
     /**
      * An event listener wrapper 
      * @param eventName A string representing the event name
      * @param handler a function that handles event
      */
-    public on(eventName: string, handler: any) {
+    public internalOn(eventName: string, handler: any) {
         document.addEventListener(`${this.prefix}${eventName}`, handler);
     }
+
+    /**
+     * An event listener wrapper        
+     * ======== TO BE DEPRICATED IN FUTURE ============
+     * @param eventName A string representing the event name
+     * @param handler a function that handles event
+     */
+    public on(eventName: string, handler: any) {
+        console.warn(`service.on method will be DEPRICATED in future. Please consider using service.events.${eventName} instead.`);
+        document.addEventListener(`${this.prefix}${eventName}`, handler);
+    }
+
     /**
      * Sends the specified message to Surix
      * @param msg Message to send to Surix
@@ -61,7 +86,7 @@ export class ServiceBase {
         }
         // Remove the promise from the handler because 
         // it has already been taken care of.
-        // delete handler.rpcTracker[msg.id];
+        delete handler.rpcTracker[msg.id];
     }
     /**
      * Emits a custom event

@@ -20,9 +20,10 @@ const service = Surix.Service.init();
 const requests = Surix.requests;
 ```
 `Service`    is the service itself.
-`requests` contains all the request types available.
 
-`requests.data` contains:
+Service contains all the methods grouped according to their operations
+
+`data` contains:
 - `createEntity`: Creates an entity in the current Surix project (expects entity: any parameter).
 - `getEntities` Queries entities from the current Surix project.
 - `getEntityById`: Gets a single entity by its Surix id.
@@ -37,11 +38,13 @@ const requests = Surix.requests;
 - `getFiles`: Queries files from the current Surix project.
 - `getFileById`: Gets a single file by its Surix id.
 
-`requests.toast` contains:
+`toast` contains:
 - `show`: Displays a message on Surix toast (expects message: string parameter).
 
-`requests.menu` contains:
+`menu` contains:
 - `populate`: Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
+`on` is a function used to register events.
+
 `requests.events` contains:
 - `menuItemClicked`: The event dispatched when a menu item is clicked.
 
@@ -75,7 +78,7 @@ const menuItems = [
 
 Populating the menu:
 ```javascript
-service.request(requests.menu.populate, menuItems).then(res => {
+service.menu.populate(menuItems).then(res => {
     // The menu was updated automatically
 }).catch(err => {
     // Handle the error
@@ -88,7 +91,7 @@ const toast = {
     message: 'Welcome to Surix',
     type: 'info' // could also be 'success', 'error'
 };
-service.request(requests.toast.show, toast).then(res => {
+service.toast.show(toast).then(res => {
     // Toast was displayed successfully 
 }).catch(err => {
     // Handle error
@@ -104,7 +107,7 @@ const query = {
     },
     tags: ['people']
 };
-service.request(requests.data.getEntities, query).then((entities) => {
+service.data.getEntities(query).then((entities) => {
     // Do something with the response
 }).catch(err => {
     // Handle error
@@ -114,7 +117,7 @@ service.request(requests.data.getEntities, query).then((entities) => {
 ### Fetch and entity by its Surix ID
 ```javascript
 const id = '1I7OBNmpPRYMS3s6WmoxeA';
-service.request(requests.data.getEntityById, id).then((entity) => {
+service.data.getEntityById(id).then((entity) => {
     // Do something with the entity
 }).catch(err => {
     // Handle error
@@ -132,7 +135,7 @@ const entity = {
     }
 };
 
-service.request(requests.data.createEntity, entity).then((createdEntity) => {
+service.data.createEntity(entity).then((createdEntity) => {
     // Do something with the newly created entity
 }).catch(err => {
     // Handle the error
@@ -146,7 +149,7 @@ const args = {
     entityId: '1I7OBNmpPRYMS3s6WmoxeA'
 };
 
-service.request(requests.data.addTagsToEntity, args).then((updatedEntity) => {
+service.data.addTagsToEntity(args).then((updatedEntity) => {
     // Do something with the updated entity
 }).catch(err => {
     // Handle the error
@@ -163,7 +166,7 @@ const args = {
     entityId: '1I7OBNmpPRYMS3s6WmoxeA'
 };
 
-service.request(requests.data.removeTagsFromEntity, args).then((updatedEntity) => {
+service.data.removeTagsFromEntity(args).then((updatedEntity) => {
     // Do something with the updated entity
 }).catch(err => {
     // Handle the error
@@ -181,7 +184,7 @@ const args = {
     }
 };
 
-surix.request(requests.data.updateTag, args).then(updatedTag => {
+surix.data.updateTag(args).then(updatedTag => {
     //Tag updated successfully
 }).catch(error) => {
     //Error
@@ -190,7 +193,7 @@ surix.request(requests.data.updateTag, args).then(updatedTag => {
 
 ### Get all tags in the project
 ```javascript
-service.request(requests.data.getTags).then((tags) => {
+service.data.getTags().then((tags) => {
     // Do something with the tags
 }).catch((err) => {
     // handle error
@@ -208,7 +211,7 @@ The response of the request is an array of tag objects:
 
 ### Fetch Project:
 ```javascript
-service.request(requests.data.project).then(project => {
+service.data.project().then(project => {
     // Do something with the fetched project
 }).catch(err => {
     // Handle error
@@ -217,7 +220,7 @@ service.request(requests.data.project).then(project => {
 
 ### Get App Data:
 ```javascript
-service.request(requests.data.getAppData).then(data => {
+service.data.getAppData().then(data => {
     // do something with the data
 }).catch(err => {
     //handler error
@@ -238,7 +241,7 @@ const update = {
         }
     }
 };
-service.request(requests.data.updateAppData, update).then(updatedData => {
+service.data.updateAppData(update).then(updatedData => {
     // do something with updated data
 }).catch(err => {
     // handler error
@@ -256,7 +259,7 @@ const fileParmas = {
     file,                    // The file itself (has to be of type File)
 }
 
-service.request(requests.data.createFile, fileParams).then(fileDetails => {
+service.data.createFile(fileParams).then(fileDetails => {
     // Do something with the file details
 }).catch(err => {
     // Handle error
@@ -267,7 +270,7 @@ service.request(requests.data.createFile, fileParams).then(fileDetails => {
 ```javascript
 const fileId = '123';
 
-service.request(requests.data.getFileById, fileId).then(fileDetails => {
+service.data.getFileById(fileId).then(fileDetails => {
     // Do something with the fileDetails
     // NOTE: fileDetails has  field downloadUrl that contains a url 
     // to the actual file
@@ -279,7 +282,7 @@ service.request(requests.data.getFileById, fileId).then(fileDetails => {
 ### Fetch all files
 ```javascript
 
-service.request(requests.data.getFiles).then(files => {
+service.data.getFiles().then(files => {
     // DO something with the files, file is an array of fileDetails
 }).catch(err => {
     // Handle error
@@ -305,5 +308,5 @@ let handler = (event) => {
             // The mpesa menu item was clicked
     }
 
-service.on(requests.events.menuItemClicked, handler);
+service.events.menuItemClicked(handler);
 ```
