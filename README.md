@@ -23,35 +23,32 @@ const requests = Surix.requests;
 
 Service contains all the methods grouped according to their operations
 
-`data` contains:
-- `createEntity`: Creates an entity in the current Surix project (expects entity: any parameter).
-- `getEntities` Queries entities from the current Surix project.
-- `getEntityById`: Gets a single entity by its Surix id.
-- `addTagsToEntity`: Add tags to an existing entity.
-- `removeTagsFromEntity`: Removes tags from an entity.
-- `getTags`: Gets all the entity tags in the project.
-- `updateTag`: Updates the specified tag in an entity. <!--readme added-->
-- `project`: Fetches the current Surix project.
-- `getAppData`: Fetches app data stored by the app in the current project
-- `updateAppData`: Updates/adds app data to the current project.
-- `createFile`: Creates a file in the current Surix project (expects fileParams: any parameter).
-- `getFiles`: Queries files from the current Surix project.
-- `getFileById`: Gets a single file by its Surix id.
+[data](#data-methods) contains:
+- [createEntity](#create-entity): Creates an entity in the current Surix project (expects entity: any parameter).
+- [getEntities](#fetch-entities): Queries entities from the current Surix project.
+- [getEntityById](#fetch-and-entity-by-its-surix-id): Gets a single entity by its Surix id.
+- [addTagsToEntity](#add-tags-to-an-entity): Add tags to an existing entity.
+- [removeTagsFromEntity](#remove-tags-from-an-entity): Removes tags from an entity.
+- [getTags](#get-all-tags): Gets all the entity tags in the project.
+- [updateTag](#updating-a-tag): Updates the specified tag in an entity. <!--readme added-->
+- [project](#fetch-project): Fetches the current Surix project.
+- [getAppData](#get-app-data): Fetches app data stored by the app in the current project
+- [updateAppData](#update-app-data): Updates/adds app data to the current project.
+- [createFile](#upload-a-file): Creates a file in the current Surix project (expects fileParams: any parameter).
+- [getFiles](#fetch-all-files): Queries files from the current Surix project.
+- [getFileById](#fetch-a-file-by-id): Gets a single file by its Surix id.
 
-`toast` contains:
-- `show`: Displays a message on Surix toast (expects message: string parameter).
+[toast](#toast-methods) contains:
+- [show](#show-a-toast-message): Displays a message on Surix toast (expects message: string parameter).
 
-`menu` contains:
-- `populate`: Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
-`on` is a function used to register events.
+[menu](#menu-methods) contains:
+- [populate](#populating-surix-menu): Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
 
-`requests.events` contains:
-- `menuItemClicked`: The event dispatched when a menu item is clicked.
+[events](#events-methods) contains:
+- [menuItemClicked](#menu-item-clicked): The event dispatched when a menu item is clicked.
 
-## Methods:
-`Service` has one method `request` which takes 2 parameters, the first is the request type, and the second is optional payload.
-## 
-## Populating Surix menu:
+## Menu Methods
+### Populating Surix menu:
 menu payload is an array of objects:
 ```javascript
 const menuItems = [
@@ -85,6 +82,7 @@ service.menu.populate(menuItems).then(res => {
 });
 ```
 
+## Toast Methods
 ### Show a Toast Message:
 ```javascript
 const toast = {
@@ -97,7 +95,7 @@ service.toast.show(toast).then(res => {
     // Handle error
 });
 ```
-
+## Data Methods
 ### Fetch Entities:
 ```javascript
 // Fetch entities
@@ -175,7 +173,7 @@ service.data.removeTagsFromEntity(args).then((updatedEntity) => {
 
 **Note**: Tags that are not in the entity will be ignored.
 
-### Updating a tag in an entity
+### Updating a tag
 ```javascript
 const args = {
     tags: 'people',
@@ -191,7 +189,7 @@ surix.data.updateTag(args).then(updatedTag => {
 });
 ```
 
-### Get all tags in the project
+### Get all tags
 ```javascript
 service.data.getTags().then((tags) => {
     // Do something with the tags
@@ -289,17 +287,18 @@ service.data.getFiles().then(files => {
 })
 ```
 
-## Events:
+## Events Methods           
 There are times where Surix sends information to the app without the app requesting.
 
-### Menu Item Clicked
+### Menu Item Clicked:          
 
-When one clicks on the menu populated by the app, Surix tells the app about the click using a `requests.events.menuItemClicked` event.
+When one clicks on the menu populated by the app, Surix tells the app about the click using a `menuItemClicked` event.
 
 Listening to the menu click event:
 ```javascript
 let handler = (event) => {
     const msg = event.detail;
+    // msg.body contains the action value in your menu item
     switch(msg.body) {
         case 'settings':
             // The settings menu item was clicked
