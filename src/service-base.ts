@@ -78,7 +78,7 @@ export class ServiceBase {
      * @param msg Response from Surix
      * @param handler Handles the response
      */
-    private handleRpcReq(msg: any, handler: any) {
+    private handleRpcRep(msg: any, handler: any) {
         if(msg.success) {
             handler.rpcTracker[msg.id].resolve(msg.body);
         } else {
@@ -104,7 +104,7 @@ export class ServiceBase {
             const msg: any = event.data;
             switch(msg.type) {
                 case 'rpcRep':
-                    this.handleRpcReq(msg, this);
+                    this.handleRpcRep(msg, this);
                     break;
                 case 'event':
                     this.emit(msg);
