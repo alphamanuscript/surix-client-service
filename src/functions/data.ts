@@ -9,7 +9,8 @@ import {
     AppData,
     Tag,
     IData,
-    PersistedAppData
+    PersistedAppData,
+    QueryParams
 } from "../types";
 import { requests } from "../requests";
 import { ServiceBase } from "../service-base";
@@ -44,7 +45,7 @@ export class Data extends ServiceBase implements IData{
      * @param query (Optional) query
      * @returns Promise<PersistedEntityData[]>
      */
-    public async getEntities(query?: any): Promise<PersistedEntityData[]> {
+    public async getEntities(query?: QueryParams): Promise<PersistedEntityData[]> {
         return await this.internalRequest(requests.data.getEntities, query);
     }
 
