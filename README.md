@@ -15,40 +15,40 @@ const requests = Surix.requests;
 ```
 or
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/@surix/client-service@0.2.5/dist/client-service.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@surix/client-service@0.3.0/dist/client-service.min.js"></script>
 const service = Surix.Service.init();
 const requests = Surix.requests;
 ```
 `Service`    is the service itself.
-`requests` contains all the request types available.
 
-`requests.data` contains:
-- `createEntity`: Creates an entity in the current Surix project (expects entity: any parameter).
-- `getEntities` Queries entities from the current Surix project.
-- `getEntityById`: Gets a single entity by its Surix id.
-- `addTagsToEntity`: Add tags to an existing entity.
-- `removeTagsFromEntity`: Removes tags from an entity.
-- `getTags`: Gets all the entity tags in the project.
-- `updateTag`: Updates the specified tag in an entity. <!--readme added-->
-- `project`: Fetches the current Surix project.
-- `getAppData`: Fetches app data stored by the app in the current project
-- `updateAppData`: Updates/adds app data to the current project.
-- `createFile`: Creates a file in the current Surix project (expects fileParams: any parameter).
-- `getFiles`: Queries files from the current Surix project.
-- `getFileById`: Gets a single file by its Surix id.
+Service contains all the methods grouped according to their operations
 
-`requests.toast` contains:
-- `show`: Displays a message on Surix toast (expects message: string parameter).
+[data](#data-methods) contains:
+- [createEntity](#create-entity): Creates an entity in the current Surix project (expects entity: any parameter).
+- [getEntities](#fetch-entities): Queries entities from the current Surix project.
+- [getEntityById](#fetch-and-entity-by-its-surix-id): Gets a single entity by its Surix id.
+- [addTagsToEntity](#add-tags-to-an-entity): Add tags to an existing entity.
+- [removeTagsFromEntity](#remove-tags-from-an-entity): Removes tags from an entity.
+- [getTags](#get-all-tags): Gets all the entity tags in the project.
+- [updateTag](#updating-a-tag): Updates the specified tag in an entity. <!--readme added-->
+- [project](#fetch-project): Fetches the current Surix project.
+- [getAppData](#get-app-data): Fetches app data stored by the app in the current project
+- [updateAppData](#update-app-data): Updates/adds app data to the current project.
+- [createFile](#upload-a-file): Creates a file in the current Surix project (expects fileParams: any parameter).
+- [getFiles](#fetch-all-files): Queries files from the current Surix project.
+- [getFileById](#fetch-a-file-by-id): Gets a single file by its Surix id.
 
-`requests.menu` contains:
-- `populate`: Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
-`requests.events` contains:
-- `menuItemClicked`: The event dispatched when a menu item is clicked.
+[toast](#toast-methods) contains:
+- [show](#show-a-toast-message): Displays a message on Surix toast (expects message: string parameter).
 
-## Methods:
-`Service` has one method `request` which takes 2 parameters, the first is the request type, and the second is optional payload.
-## 
-## Populating Surix menu:
+[menu](#menu-methods) contains:
+- [populate](#populating-surix-menu): Submits the menu items to Surix. The menu is updated immidiately (expects items: any parameter).
+
+[events](#events-methods) contains:
+- [menuItemClicked](#menu-item-clicked): The event dispatched when a menu item is clicked.
+
+## Menu Methods
+### Populating Surix menu:
 menu payload is an array of objects:
 ```javascript
 const menuItems = [
@@ -75,26 +75,27 @@ const menuItems = [
 
 Populating the menu:
 ```javascript
-service.request(requests.menu.populate, menuItems).then(res => {
+service.menu.populate(menuItems).then(res => {
     // The menu was updated automatically
 }).catch(err => {
     // Handle the error
 });
 ```
 
+## Toast Methods
 ### Show a Toast Message:
 ```javascript
 const toast = {
     message: 'Welcome to Surix',
     type: 'info' // could also be 'success', 'error'
 };
-service.request(requests.toast.show, toast).then(res => {
+service.toast.show(toast).then(res => {
     // Toast was displayed successfully 
 }).catch(err => {
     // Handle error
 });
 ```
-
+## Data Methods
 ### Fetch Entities:
 ```javascript
 // Fetch entities
@@ -104,7 +105,7 @@ const query = {
     },
     tags: ['people']
 };
-service.request(requests.data.getEntities, query).then((entities) => {
+service.data.getEntities(query).then((entities) => {
     // Do something with the response
 }).catch(err => {
     // Handle error
@@ -114,7 +115,7 @@ service.request(requests.data.getEntities, query).then((entities) => {
 ### Fetch and entity by its Surix ID
 ```javascript
 const id = '1I7OBNmpPRYMS3s6WmoxeA';
-service.request(requests.data.getEntityById, id).then((entity) => {
+service.data.getEntityById(id).then((entity) => {
     // Do something with the entity
 }).catch(err => {
     // Handle error
@@ -132,7 +133,7 @@ const entity = {
     }
 };
 
-service.request(requests.data.createEntity, entity).then((createdEntity) => {
+service.data.createEntity(entity).then((createdEntity) => {
     // Do something with the newly created entity
 }).catch(err => {
     // Handle the error
@@ -146,7 +147,7 @@ const args = {
     entityId: '1I7OBNmpPRYMS3s6WmoxeA'
 };
 
-service.request(requests.data.addTagsToEntity, args).then((updatedEntity) => {
+service.data.addTagsToEntity(args).then((updatedEntity) => {
     // Do something with the updated entity
 }).catch(err => {
     // Handle the error
@@ -163,7 +164,7 @@ const args = {
     entityId: '1I7OBNmpPRYMS3s6WmoxeA'
 };
 
-service.request(requests.data.removeTagsFromEntity, args).then((updatedEntity) => {
+service.data.removeTagsFromEntity(args).then((updatedEntity) => {
     // Do something with the updated entity
 }).catch(err => {
     // Handle the error
@@ -172,7 +173,7 @@ service.request(requests.data.removeTagsFromEntity, args).then((updatedEntity) =
 
 **Note**: Tags that are not in the entity will be ignored.
 
-### Updating a tag in an entity
+### Updating a tag
 ```javascript
 const args = {
     tags: 'people',
@@ -181,16 +182,16 @@ const args = {
     }
 };
 
-surix.request(requests.data.updateTag, args).then(updatedTag => {
+surix.data.updateTag(args).then(updatedTag => {
     //Tag updated successfully
 }).catch(error) => {
     //Error
 });
 ```
 
-### Get all tags in the project
+### Get all tags
 ```javascript
-service.request(requests.data.getTags).then((tags) => {
+service.data.getTags().then((tags) => {
     // Do something with the tags
 }).catch((err) => {
     // handle error
@@ -208,7 +209,7 @@ The response of the request is an array of tag objects:
 
 ### Fetch Project:
 ```javascript
-service.request(requests.data.project).then(project => {
+service.data.project().then(project => {
     // Do something with the fetched project
 }).catch(err => {
     // Handle error
@@ -217,7 +218,7 @@ service.request(requests.data.project).then(project => {
 
 ### Get App Data:
 ```javascript
-service.request(requests.data.getAppData).then(data => {
+service.data.getAppData().then(data => {
     // do something with the data
 }).catch(err => {
     //handler error
@@ -238,7 +239,7 @@ const update = {
         }
     }
 };
-service.request(requests.data.updateAppData, update).then(updatedData => {
+service.data.updateAppData(update).then(updatedData => {
     // do something with updated data
 }).catch(err => {
     // handler error
@@ -256,7 +257,7 @@ const fileParmas = {
     file,                    // The file itself (has to be of type File)
 }
 
-service.request(requests.data.createFile, fileParams).then(fileDetails => {
+service.data.createFile(fileParams).then(fileDetails => {
     // Do something with the file details
 }).catch(err => {
     // Handle error
@@ -267,7 +268,7 @@ service.request(requests.data.createFile, fileParams).then(fileDetails => {
 ```javascript
 const fileId = '123';
 
-service.request(requests.data.getFileById, fileId).then(fileDetails => {
+service.data.getFileById(fileId).then(fileDetails => {
     // Do something with the fileDetails
     // NOTE: fileDetails has  field downloadUrl that contains a url 
     // to the actual file
@@ -279,24 +280,25 @@ service.request(requests.data.getFileById, fileId).then(fileDetails => {
 ### Fetch all files
 ```javascript
 
-service.request(requests.data.getFiles).then(files => {
+service.data.getFiles().then(files => {
     // DO something with the files, file is an array of fileDetails
 }).catch(err => {
     // Handle error
 })
 ```
 
-## Events:
+## Events Methods           
 There are times where Surix sends information to the app without the app requesting.
 
-### Menu Item Clicked
+### Menu Item Clicked:          
 
-When one clicks on the menu populated by the app, Surix tells the app about the click using a `requests.events.menuItemClicked` event.
+When one clicks on the menu populated by the app, Surix tells the app about the click using a `menuItemClicked` event.
 
 Listening to the menu click event:
 ```javascript
 let handler = (event) => {
     const msg = event.detail;
+    // msg.body contains the action value in your menu item
     switch(msg.body) {
         case 'settings':
             // The settings menu item was clicked
@@ -305,5 +307,5 @@ let handler = (event) => {
             // The mpesa menu item was clicked
     }
 
-service.on(requests.events.menuItemClicked, handler);
+service.events.menuItemClicked(handler);
 ```
