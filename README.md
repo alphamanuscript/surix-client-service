@@ -15,7 +15,7 @@ const requests = Surix.requests;
 ```
 or
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/@surix/client-service@0.2.5/dist/client-service.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@surix/client-service@0.3.0/dist/client-service.min.js"></script>
 const service = Surix.Service.init();
 const requests = Surix.requests;
 ```
