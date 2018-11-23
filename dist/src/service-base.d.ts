@@ -1,20 +1,30 @@
-export declare class Service {
+export declare class ServiceBase {
     private rpcTracker;
-    private static instance?;
     private prefix;
+    protected constructor();
     /**
-     * Constructor
+     * Sends a request to Surixs
+     * @param type Request type
+     * @param payload Request payload
      */
-    private constructor();
+    protected internalRequest(type: string, payload?: any): Promise<any>;
     /**
      * Sends a request to Surix
+     * ====== TO BE DEPRICATED IN FUTURE =======
      * @param type Request type
      * @param payload Request payload
      * @returns Promise Returns a promise
      */
-    request(type: string, payload?: any): Promise<{}>;
+    request(type: string, payload?: any): Promise<any>;
     /**
      * An event listener wrapper
+     * @param eventName A string representing the event name
+     * @param handler a function that handles event
+     */
+    internalOn(eventName: string, handler: any): void;
+    /**
+     * An event listener wrapper
+     * ======== TO BE DEPRICATED IN FUTURE ============
      * @param eventName A string representing the event name
      * @param handler a function that handles event
      */
@@ -35,7 +45,7 @@ export declare class Service {
      * @param msg Response from Surix
      * @param handler Handles the response
      */
-    private handleRpcReq;
+    private handleRpcRep;
     /**
      * Emits a custom event
      * @param msg Message to be embedded to the custom event to be emitted
@@ -44,6 +54,5 @@ export declare class Service {
     /**
      * Sets up Surix service
      */
-    private setUpService;
-    static init(): Service;
+    protected setUpService(): void;
 }
