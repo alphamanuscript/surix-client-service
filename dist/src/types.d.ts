@@ -49,6 +49,21 @@ export interface MenuItem {
     default?: boolean;
 }
 
+export interface QueryMatch {
+    [fieldOrOp: string]: any;
+}
+
+export interface QueryParams {
+    [key: string]: any;
+    query?: QueryMatch;
+    limit?: number;
+    skip?: number;
+    sort?: {
+        [field: string]: number;
+    };
+    tags?: string[];
+}
+
 export interface FileParams {
     name: string;
     public: boolean;
@@ -109,7 +124,7 @@ interface HasTimestamps {
 export interface IData {
     createEntity(entity: EntityData): Promise<PersistedEntityData>;
     project(): Promise<Project>;
-    getEntities(query?: any): Promise<PersistedEntityData[]>;
+    getEntities(query?: QueryParams): Promise<PersistedEntityData[]>;
     getEntityById(id: string): Promise<PersistedEntityData>;
     addTagsToEntity(params: TagsParams): Promise<PersistedEntityData>;
     removeTagsFromEntity(params: TagsParams): Promise<PersistedEntityData>;

@@ -1,4 +1,4 @@
-import { PersistedEntityData, TagUpdateParams, FileDetails, FileParams, TagsParams, EntityData, Project, AppData, Tag, IData, PersistedAppData } from "../types";
+import { PersistedEntityData, TagUpdateParams, FileDetails, FileParams, TagsParams, EntityData, Project, AppData, Tag, IData, PersistedAppData, QueryParams } from "../types";
 import { ServiceBase } from "../service-base";
 export declare class Data extends ServiceBase implements IData {
     constructor();
@@ -18,7 +18,7 @@ export declare class Data extends ServiceBase implements IData {
      * @param query (Optional) query
      * @returns Promise<PersistedEntityData[]>
      */
-    getEntities(query?: any): Promise<PersistedEntityData[]>;
+    getEntities(query?: QueryParams): Promise<PersistedEntityData[]>;
     /**
      * Returns an entity identified by the id provided
      * @param id Surix Id

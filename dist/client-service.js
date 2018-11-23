@@ -175,7 +175,7 @@ var ServiceBase = /** @class */ (function () {
      * @param msg Response from Surix
      * @param handler Handles the response
      */
-    ServiceBase.prototype.handleRpcReq = function (msg, handler) {
+    ServiceBase.prototype.handleRpcRep = function (msg, handler) {
         if (msg.success) {
             handler.rpcTracker[msg.id].resolve(msg.body);
         }
@@ -203,7 +203,7 @@ var ServiceBase = /** @class */ (function () {
             var msg = event.data;
             switch (msg.type) {
                 case 'rpcRep':
-                    _this.handleRpcReq(msg, _this);
+                    _this.handleRpcRep(msg, _this);
                     break;
                 case 'event':
                     _this.emit(msg);

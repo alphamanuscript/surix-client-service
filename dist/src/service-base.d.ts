@@ -45,7 +45,7 @@ export declare class ServiceBase {
      * @param msg Response from Surix
      * @param handler Handles the response
      */
-    private handleRpcReq;
+    private handleRpcRep;
     /**
      * Emits a custom event
      * @param msg Message to be embedded to the custom event to be emitted
